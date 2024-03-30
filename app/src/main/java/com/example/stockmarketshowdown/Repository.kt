@@ -1,3 +1,6 @@
+import android.content.Context
+import com.google.gson.Gson
+import java.io.File
 data class Company(
     val currency: String,
     val description: String,
@@ -9,21 +12,9 @@ data class Company(
     val symbol: String,
     val symbol2: String,
     val type: String)
-
-class Repository {
-    // This function fetches the list of publicly traded US companies from the specified API
-    private var companyResources = listOf(
-        Company  (
-                "USD",
-                "REPUBLIC SERVICES INC",
-                "RSG",
-                "BBG000BPXVJ6",
-                null,
-                "XNYS",
-                "BBG001S9DL33",
-                "RSG",
-                "",
-                "Common Stock"
-        )
-    )
+fun loadCompaniesFromAssets(context: Context): List<Company> {
+    val gson = Gson()
+    val inputStream = context.assets.open("companyData.json")
+    val jsonString = inputStream.bufferedReader().use { it.readText() }
+    return gson.fromJson(jsonString, Array<Company>::class.java).toList()
 }
