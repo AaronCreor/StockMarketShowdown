@@ -1,6 +1,5 @@
 package com.example.stockmarketshowdown
 
-import Company
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -9,6 +8,7 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.stockmarketshowdown.databinding.ActivityMainBinding
+import com.example.stockmarketshowdown.firebase.AuthInit
 import com.firebase.ui.auth.FirebaseAuthUIActivityResultContract
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import loadCompaniesFromAssets
@@ -26,7 +26,7 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         AuthInit(viewModel, signInLauncher)
-        companyList = loadCompaniesFromAssets(this)//Assigns companyList the contents of assets/companyData.json
+        var companyList = loadCompaniesFromAssets(this)//Assigns companyList the contents of assets/companyData.json
 
         val navView: BottomNavigationView = binding.navView
 

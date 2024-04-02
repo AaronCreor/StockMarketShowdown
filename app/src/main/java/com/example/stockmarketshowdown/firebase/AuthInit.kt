@@ -1,8 +1,9 @@
-package com.example.stockmarketshowdown
+package com.example.stockmarketshowdown.firebase
 
 import android.content.Intent
 import android.util.Log
 import androidx.activity.result.ActivityResultLauncher
+import com.example.stockmarketshowdown.MainViewModel
 import com.firebase.ui.auth.AuthUI
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
