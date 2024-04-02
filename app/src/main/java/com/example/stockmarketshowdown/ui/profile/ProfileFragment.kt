@@ -10,7 +10,6 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.stockmarketshowdown.databinding.FragmentProfileBinding
 
 class ProfileFragment : Fragment() {
-
     private var _binding: FragmentProfileBinding? = null
 
     // This property is only valid between onCreateView and
@@ -22,16 +21,14 @@ class ProfileFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val profileViewModel =
-            ViewModelProvider(this).get(ProfileViewModel::class.java)
-
+//        val dashboardViewModel =
+//            ViewModelProvider(this).get(DashboardViewModel::class.java)
         _binding = FragmentProfileBinding.inflate(inflater, container, false)
         val root: View = binding.root
-
-        val textView: TextView = binding.textProfile
-        profileViewModel.text.observe(viewLifecycleOwner) {
-            textView.text = it
-        }
+//        val textView: TextView = binding.textDashboard
+//        dashboardViewModel.text.observe(viewLifecycleOwner) {
+//            textView.text = it
+//        }
         return root
     }
 
