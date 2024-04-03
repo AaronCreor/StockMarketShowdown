@@ -12,9 +12,12 @@ data class Company(
     val symbol: String,
     val symbol2: String,
     val type: String)
-fun loadCompaniesFromAssets(context: Context): List<Company> {
-    val gson = Gson()
-    val inputStream = context.assets.open("companyData.json")
-    val jsonString = inputStream.bufferedReader().use { it.readText() }
-    return gson.fromJson(jsonString, Array<Company>::class.java).toList()
+
+class Repository{
+    fun loadCompaniesFromAssets(context: Context): List<Company> {
+        val gson = Gson()
+        val inputStream = context.assets.open("companyData.json")
+        val jsonString = inputStream.bufferedReader().use { it.readText() }
+        return gson.fromJson(jsonString, Array<Company>::class.java).toList()
+    }
 }
