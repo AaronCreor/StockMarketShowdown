@@ -16,10 +16,10 @@ class MainViewModel : ViewModel() {
     private var email = MutableLiveData("Uninitialized")
     private var uid = MutableLiveData("Uninitialized")
     val repository = Repository()
-    private val _companyList = MutableLiveData<List<Company>>()
-
-    val companyList: LiveData<List<Company>>
-        get() = _companyList
+    private var _companyList = listOf<Company>()
+    private val _liveCompanyList = MutableLiveData<List<Company>>()
+    val liveCompanyList: LiveData<List<Company>>
+        get() = _liveCompanyList
 
     private fun userLogout() {
         displayName.postValue("No user")
@@ -27,8 +27,14 @@ class MainViewModel : ViewModel() {
         uid.postValue("No uid, no active user")
     }
     fun populateCompanyList(context: Context) {
-        _companyList.value = repository.loadCompaniesFromAssets(context)
+        _companyList = repository.loadCompaniesFromAssets(context)
+        _liveCompanyList.value = _companyList // Update LiveData with new list
     }
+
+    fun getCurrentCompanyInfo(index: Int) : String {
+        return _companyList[index].description
+    }
+
     fun updateUser() {
         val user = Firebase.auth.currentUser
     }

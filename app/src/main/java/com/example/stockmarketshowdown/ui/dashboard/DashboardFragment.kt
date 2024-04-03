@@ -43,7 +43,7 @@ class DashboardFragment : Fragment() {
         binding.companyRV.adapter = adapter
 
         // Observe changes in companyList
-        viewModel.companyList.observe(viewLifecycleOwner, Observer { companies ->
+        viewModel.liveCompanyList.observe(viewLifecycleOwner, Observer { companies ->
             // Update the RecyclerView adapter with new data
             adapter.submitList(companies)
         })
