@@ -1,5 +1,9 @@
 buildscript {
+    repositories {
+        google()
+    }
     dependencies {
+        // Add Safe Args plugin dependency
         classpath(libs.google.services)
     }
 }

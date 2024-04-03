@@ -33,7 +33,11 @@ class DashboardFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         viewModel = ViewModelProvider(requireActivity()).get(MainViewModel::class.java)
-        adapter = RVDiffAdapter(viewModel) { /* Click listener implementation */ }
+        adapter = RVDiffAdapter(viewModel) { company ->
+            // Handle item click here, navigate to CompanyPageFragment
+            val action = DashboardFragmentDirections.actionNavigationDashboardToCompanyPageFragment(company)
+            findNavController().navigate(action)
+        }
 
         binding.companyRV.layoutManager = LinearLayoutManager(requireContext())
         binding.companyRV.adapter = adapter
