@@ -1,4 +1,6 @@
 package com.example.stockmarketshowdown.ui.leaderboard
 
-class LeaderboardFragment {
+import androidx.fragment.app.Fragment
+
+class LeaderboardFragment : Fragment() {
 }
