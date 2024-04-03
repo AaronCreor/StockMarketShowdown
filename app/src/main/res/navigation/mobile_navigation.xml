@@ -15,7 +15,15 @@
         android:id="@+id/navigation_dashboard"
         android:name="com.example.stockmarketshowdown.ui.dashboard.DashboardFragment"
         android:label="@string/title_dashboard"
-        tools:layout="@layout/fragment_dashboard" />
+        tools:layout="@layout/fragment_dashboard" >
+        <action
+            android:id="@+id/action_navigation_dashboard_to_companyPageFragment"
+            app:destination="@id/companyPageFragment" >
+            <argument
+                android:name="companyIndex"
+                app:argType="integer" />
+        </action>
+    </fragment>
 
     <fragment
         android:id="@+id/navigation_notifications"
@@ -28,4 +36,10 @@
         android:name="com.example.stockmarketshowdown.ui.profile.ProfileFragment"
         android:label="Profile"
         tools:layout="@layout/fragment_profile"/>
+    <fragment
+        android:id="@+id/companyPageFragment"
+        android:name="com.example.stockmarketshowdown.ui.dashboard.CompanyPageFragment"
+        android:label="Company Page"
+        tools:layout="@layout/fragment_companypage" >
+    </fragment>
 </navigation>

@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.stockmarketshowdown.MainViewModel
 import com.example.stockmarketshowdown.databinding.FragmentDashboardBinding
 import musicplayer.cs371m.musicplayer.RVDiffAdapter
+import androidx.navigation.fragment.findNavController
 
 class DashboardFragment : Fragment() {
 
@@ -35,8 +36,7 @@ class DashboardFragment : Fragment() {
         viewModel = ViewModelProvider(requireActivity()).get(MainViewModel::class.java)
         adapter = RVDiffAdapter(viewModel) { company ->
             // Handle item click here, navigate to CompanyPageFragment
-            val action = DashboardFragmentDirections.actionNavigationDashboardToCompanyPageFragment(company)
-            findNavController().navigate(action)
+            findNavController().navigate(DashboardFragmentDirections.actionNavigationDashboardToCompanyPageFragment(company))
         }
 
         binding.companyRV.layoutManager = LinearLayoutManager(requireContext())

@@ -11,7 +11,7 @@ import com.example.stockmarketshowdown.MainViewModel
 import com.example.stockmarketshowdown.databinding.CompanyRowBinding
 class RVDiffAdapter(
     private val viewModel: MainViewModel,
-    private val onItemClick: (company: Company) -> Unit
+    private val onItemClick: (position: Int) -> Unit
 )
     : ListAdapter<Company,
         RVDiffAdapter.ViewHolder>(Diff())
@@ -35,7 +35,7 @@ class RVDiffAdapter(
         val company = getItem(position)
         holder.bind(company)
         holder.itemView.setOnClickListener {
-            onItemClick(company)
+            onItemClick(position)
         }
     }
 
