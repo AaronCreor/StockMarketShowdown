@@ -31,8 +31,8 @@ class MainViewModel : ViewModel() {
         _liveCompanyList.value = _companyList // Update LiveData with new list
     }
 
-    fun getCurrentCompanyInfo(index: Int) : String {
-        return _companyList[index].description
+    fun getCurrentCompanyInfo(index: Int) : Company {
+        return _companyList[index]
     }
 
     fun updateUser() {
