@@ -33,4 +33,4 @@ CREATE TABLE Score (
       UserID VARCHAR(100),
       Score INT,
       FOREIGN KEY (UserID) REFERENCES Users(UserID)
-  );
+);
