@@ -1,7 +1,7 @@
 package com.example.stockmarketshowdown
 
-import Company
 import android.os.Bundle
+import android.view.MenuItem
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
@@ -9,9 +9,10 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.stockmarketshowdown.databinding.ActivityMainBinding
+import com.example.stockmarketshowdown.firebase.AuthInit
 import com.firebase.ui.auth.FirebaseAuthUIActivityResultContract
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import loadCompaniesFromAssets
+
 class MainActivity : AppCompatActivity() {
     private val viewModel: MainViewModel by viewModels()
     private lateinit var binding: ActivityMainBinding
@@ -22,11 +23,10 @@ class MainActivity : AppCompatActivity() {
         }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         AuthInit(viewModel, signInLauncher)
-        companyList = loadCompaniesFromAssets(this)//Assigns companyList the contents of assets/companyData.json
+        viewModel.populateCompanyList(this)
 
         val navView: BottomNavigationView = binding.navView
 
@@ -35,10 +35,23 @@ class MainActivity : AppCompatActivity() {
         // menu should be considered as top level destinations.
         val appBarConfiguration = AppBarConfiguration(
             setOf(
-                R.id.navigation_home, R.id.navigation_dashboard, R.id.navigation_notifications, R.id.navigation_profile
+                R.id.navigation_home,
+                R.id.navigation_dashboard,
+                R.id.navigation_notifications,
+                R.id.navigation_profile
             )
         )
+
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
+    }
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            android.R.id.home -> {
+                onBackPressed()
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
     }
 }
