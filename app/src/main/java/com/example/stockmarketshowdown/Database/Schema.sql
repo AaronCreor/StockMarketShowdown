@@ -29,8 +29,8 @@ CREATE TABLE Portfolio (
 );
 
 CREATE TABLE Score (
-    ScoreID INT PRIMARY KEY AUTO_INCREMENT,
-    UserID VARCHAR(100),
-    Score INT,
-    FOREIGN KEY (UserID) REFERENCES Users(UserID)
-);
+      ScoreID INT PRIMARY KEY AUTO_INCREMENT,
+      UserID VARCHAR(100),
+      Score INT,
+      FOREIGN KEY (UserID) REFERENCES Users(UserID)
+  );
