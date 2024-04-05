@@ -32,10 +32,7 @@ interface FinnhubApi {
             return retrofit.create(FinnhubApi::class.java)
         }
     }
-
-
 }
-
 data class StockProfileResponse(
     val country: String,
     val currency: String,
@@ -51,7 +48,6 @@ data class StockProfileResponse(
     val ticker: String,
     val weburl: String
 )
-
 data class QuoteResponse(
     val c: Double, // current price
     val d: Double, // price change
