@@ -1,4 +1,4 @@
-package com.example.stockmarketshowdown.Database
+package com.example.stockmarketshowdown.database
 
 import android.os.StrictMode
 import android.util.Log

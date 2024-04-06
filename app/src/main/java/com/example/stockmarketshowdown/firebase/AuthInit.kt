@@ -4,7 +4,7 @@ import android.content.Intent
 import android.util.Log
 import androidx.activity.result.ActivityResultLauncher
 import com.example.stockmarketshowdown.MainViewModel
-import com.example.stockmarketshowdown.Database.SMS
+import com.example.stockmarketshowdown.database.SMS
 import com.firebase.ui.auth.AuthUI
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
@@ -54,7 +54,6 @@ class AuthInit(viewModel: MainViewModel, signInLaucher: ActivityResultLauncher<I
         } else {
             Log.d(TAG, "XXX user ${user.displayName} email ${user.email}")
             viewModel.updateUser()
-            SMS().generateDBUser()
         }
 
         FirebaseAuth.getInstance().addAuthStateListener { firebaseAuth ->
