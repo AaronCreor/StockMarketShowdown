@@ -1,6 +1,7 @@
 package com.example.stockmarketshowdown
 
 import android.os.Bundle
+import android.util.Log
 import android.view.MenuItem
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -8,10 +9,12 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
+import com.example.stockmarketshowdown.Database.SMS
 import com.example.stockmarketshowdown.databinding.ActivityMainBinding
 import com.example.stockmarketshowdown.firebase.AuthInit
 import com.firebase.ui.auth.FirebaseAuthUIActivityResultContract
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.firebase.auth.FirebaseAuth
 
 class MainActivity : AppCompatActivity() {
     private val viewModel: MainViewModel by viewModels()

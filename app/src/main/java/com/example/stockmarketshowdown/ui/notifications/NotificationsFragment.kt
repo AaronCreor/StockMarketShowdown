@@ -7,7 +7,9 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import com.example.stockmarketshowdown.Database.SMS
 import com.example.stockmarketshowdown.databinding.FragmentNotificationsBinding
+import com.google.firebase.auth.FirebaseAuth
 
 class NotificationsFragment : Fragment() {
 

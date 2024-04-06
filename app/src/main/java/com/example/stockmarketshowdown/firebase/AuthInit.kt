@@ -4,14 +4,16 @@ import android.content.Intent
 import android.util.Log
 import androidx.activity.result.ActivityResultLauncher
 import com.example.stockmarketshowdown.MainViewModel
+import com.example.stockmarketshowdown.Database.SMS
 import com.firebase.ui.auth.AuthUI
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.UserProfileChangeRequest
 import com.google.firebase.auth.auth
 
-class AuthInit(viewModel: MainViewModel, signInLaucher: ActivityResultLauncher<Intent>) {
 
+class AuthInit(viewModel: MainViewModel, signInLaucher: ActivityResultLauncher<Intent>) {
     companion object {
         private const val TAG = "AuthInit"
         fun setDisplayName(displayName: String, viewModel: MainViewModel) {
@@ -29,9 +31,13 @@ class AuthInit(viewModel: MainViewModel, signInLaucher: ActivityResultLauncher<I
                 }
         }
     }
-
+    fun getUser(): FirebaseUser? {
+        val user = FirebaseAuth.getInstance().currentUser
+        return user
+    }
     init {
         val user = FirebaseAuth.getInstance().currentUser
+
         if (user == null) {
             Log.d(TAG, "xxx user null")
 
@@ -48,6 +54,21 @@ class AuthInit(viewModel: MainViewModel, signInLaucher: ActivityResultLauncher<I
         } else {
             Log.d(TAG, "XXX user ${user.displayName} email ${user.email}")
             viewModel.updateUser()
+            SMS().generateDBUser()
         }
+
+        FirebaseAuth.getInstance().addAuthStateListener { firebaseAuth ->
+            val user = FirebaseAuth.getInstance().currentUser
+            if (user != null) {
+                // User is signed in
+                Log.d(TAG, "User ${user.displayName} is signed in. Performing necessary actions.")
+                viewModel.updateUser()
+                SMS().generateDBUser()
+            } else {
+                // User is signed out
+                Log.d(TAG, "No user signed in.")
+            }
+        }
+
     }
 }

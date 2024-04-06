@@ -55,6 +55,9 @@ dependencies {
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
     implementation("com.squareup.retrofit2:converter-gson:2.9.0")
     implementation("com.squareup.okhttp3:okhttp:4.9.3")
+    implementation("mysql:mysql-connector-java:5.1.49") {
+        exclude(group = "com.google.protobuf")
+    }
 
     // Import the FirebaseUI
     // Import the Firebase BoM
