@@ -42,4 +42,10 @@
         android:label="Company Page"
         tools:layout="@layout/fragment_companypage" >
     </fragment>
+
+    <fragment
+        android:id="@+id/navigation_history"
+        android:name="com.example.stockmarketshowdown.ui.history.HistoryFragment"
+        android:label="History"
+        tools:layout="@layout/fragment_history"/>
 </navigation>
