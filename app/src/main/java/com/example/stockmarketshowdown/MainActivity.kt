@@ -2,6 +2,7 @@ package com.example.stockmarketshowdown
 
 import android.os.Bundle
 import android.view.MenuItem
+import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
@@ -21,6 +22,13 @@ class MainActivity : AppCompatActivity() {
         registerForActivityResult(FirebaseAuthUIActivityResultContract()) {
             viewModel.updateUser()
         }
+    fun progressBarOn() {
+        binding.indeterminateBar.visibility = View.VISIBLE
+    }
+
+    fun progressBarOff() {
+        binding.indeterminateBar.visibility = View.GONE
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
