@@ -9,41 +9,60 @@
     android:paddingRight="16dp"
     android:paddingTop="16dp"
     tools:context="ui.history.HistoryFragment">
-
-    <com.google.android.material.chip.ChipGroup
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/chipGroup"
+        android:orientation="horizontal"
         >
-        <com.google.android.material.chip.Chip
-            android:id="@+id/dateChip"
-            style="@style/Widget.MaterialComponents.Chip.Filter"
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:text="Date"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:textSize="16sp"
+            android:background="#d3d3d3"
+            android:layout_margin="3dp"
+            android:gravity="center"
+            android:id="@+id/headerDate"
             />
-        <com.google.android.material.chip.Chip
-            android:id="@+id/companyChip"
-            style="@style/Widget.MaterialComponents.Chip.Filter"
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:text="Company"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:textSize="16sp"
+            android:background="#d3d3d3"
+            android:layout_margin="3dp"
+            android:gravity="center"
+            android:id="@+id/headerCompany"
             />
-        <com.google.android.material.chip.Chip
-            android:id="@+id/typeChip"
-            style="@style/Widget.MaterialComponents.Chip.Filter"
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:text="Type"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:textSize="16sp"
+            android:background="#d3d3d3"
+            android:layout_margin="3dp"
+            android:gravity="center"
+            android:id="@+id/headerType"
             />
-        <com.google.android.material.chip.Chip
-            android:id="@+id/valueChip"
-            style="@style/Widget.MaterialComponents.Chip.Filter"
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:text="Value"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:textSize="16sp"
+            android:background="#d3d3d3"
+            android:layout_margin="3dp"
+            android:gravity="center"
+            android:id="@+id/headerValue"
             />
-    </com.google.android.material.chip.ChipGroup>
+    </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"

@@ -1,5 +1,6 @@
 package com.example.stockmarketshowdown.ui.history
 
+import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -31,21 +32,74 @@ class HistoryFragment : Fragment(R.layout.fragment_history) {
         rv.adapter = adapter
         rv.layoutManager = LinearLayoutManager(rv.context)
         adapter.submitList(viewModel.getTransactions())
+        Log.d(javaClass.simpleName, "submitList")
 
-        binding.companyChip.setOnCheckedChangeListener { _, isChecked ->
+        binding.headerCompany.setOnClickListener {
+            viewModel.sortInfoClick(SortColumn.COMPANY) {
 
+            }
         }
 
-        binding.dateChip.setOnCheckedChangeListener { _, isChecked ->
+        binding.headerDate.setOnClickListener {
+            viewModel.sortInfoClick(SortColumn.DATE) {
 
+            }
         }
 
-        binding.valueChip.setOnCheckedChangeListener { _, isChecked ->
+        binding.headerType.setOnClickListener {
+            viewModel.sortInfoClick(SortColumn.TYPE) {
 
+            }
         }
 
-        binding.typeChip.setOnCheckedChangeListener { _, isChecked ->
+        binding.headerValue.setOnClickListener {
+            viewModel.sortInfoClick(SortColumn.VALUE) {
 
+            }
+        }
+
+        viewModel.observeSortInfo().observe(viewLifecycleOwner) {
+            if (it.sortColumn == SortColumn.COMPANY) {
+                binding.headerType.setBackgroundColor(Color.TRANSPARENT)
+                binding.headerDate.setBackgroundColor(Color.TRANSPARENT)
+                binding.headerValue.setBackgroundColor(Color.TRANSPARENT)
+                if (it.ascending) {
+                    binding.headerCompany.setBackgroundColor(Color.YELLOW)
+                } else {
+                    binding.headerCompany.setBackgroundColor(Color.RED)
+                }
+            } else if (it.sortColumn == SortColumn.DATE) {
+                binding.headerType.setBackgroundColor(Color.TRANSPARENT)
+                binding.headerCompany.setBackgroundColor(Color.TRANSPARENT)
+                binding.headerValue.setBackgroundColor(Color.TRANSPARENT)
+                if (it.ascending) {
+                    binding.headerDate.setBackgroundColor(Color.YELLOW)
+                } else {
+                    binding.headerDate.setBackgroundColor(Color.RED)
+                }
+            } else if (it.sortColumn == SortColumn.TYPE) {
+                binding.headerCompany.setBackgroundColor(Color.TRANSPARENT)
+                binding.headerDate.setBackgroundColor(Color.TRANSPARENT)
+                binding.headerValue.setBackgroundColor(Color.TRANSPARENT)
+                if (it.ascending) {
+                    binding.headerType.setBackgroundColor(Color.YELLOW)
+                } else {
+                    binding.headerType.setBackgroundColor(Color.RED)
+                }
+            } else if (it.sortColumn == SortColumn.VALUE) {
+                binding.headerType.setBackgroundColor(Color.TRANSPARENT)
+                binding.headerDate.setBackgroundColor(Color.TRANSPARENT)
+                binding.headerCompany.setBackgroundColor(Color.TRANSPARENT)
+                if (it.ascending) {
+                    binding.headerValue.setBackgroundColor(Color.YELLOW)
+                } else {
+                    binding.headerValue.setBackgroundColor(Color.RED)
+                }
+            }
+        }
+
+        viewModel.observeHistoryList().observe(viewLifecycleOwner) {
+            adapter.submitList(it)
         }
 
 
