@@ -30,6 +30,25 @@ class HistoryFragment : Fragment(R.layout.fragment_history) {
         rv.addItemDecoration(itemDecor)
         rv.adapter = adapter
         rv.layoutManager = LinearLayoutManager(rv.context)
+        adapter.submitList(viewModel.getTransactions())
+
+        binding.companyChip.setOnCheckedChangeListener { _, isChecked ->
+
+        }
+
+        binding.dateChip.setOnCheckedChangeListener { _, isChecked ->
+
+        }
+
+        binding.valueChip.setOnCheckedChangeListener { _, isChecked ->
+
+        }
+
+        binding.typeChip.setOnCheckedChangeListener { _, isChecked ->
+
+        }
+
+
     }
 
 

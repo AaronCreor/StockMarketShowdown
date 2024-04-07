@@ -6,8 +6,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.stockmarketshowdown.databinding.HistoryRowBinding
-import java.time.OffsetDateTime
-import java.time.format.DateTimeFormatter
+import java.text.SimpleDateFormat
 import java.util.Locale
 
 class HistoryAdapter(private val viewModel: HistoryViewModel) :
@@ -35,9 +34,9 @@ class HistoryAdapter(private val viewModel: HistoryViewModel) :
             holder.rowBinding.rowCompany.text = transaction.TradeCompany
             holder.rowBinding.rowType.text = transaction.TradeType
             holder.rowBinding.rowValue.text = "$"+transaction.TradeValue.toString()
-            var odt = OffsetDateTime.parse(transaction.TradeDate.toString())
-            var dtf = DateTimeFormatter.ofPattern("MMM dd, uuuu", Locale.ENGLISH)
-            holder.rowBinding.rowDate.text = dtf.format(odt)
+            var outputFormat = SimpleDateFormat("dd MMMM yyyy", Locale.ENGLISH)
+            val formattedDate = outputFormat.format(transaction.TradeDate)
+            holder.rowBinding.rowDate.text = formattedDate
         }
     }
 
