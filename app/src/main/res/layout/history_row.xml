@@ -1,13 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.google.android.material.card.MaterialCardView
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    app:cardCornerRadius="10dp"
-    android:layout_margin="10dp"
-    >
-<LinearLayout
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
@@ -17,43 +9,31 @@
         android:layout_width="48dp"
         android:layout_height="48dp"
         android:id="@+id/rowImage"
-        android:src="@drawable/icons8_crown_48"
-        android:elevation="2dp"
-        android:background="@drawable/ic_myrect"
-        android:layout_marginEnd="10dp"
-        />
-    <TextView
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:gravity="top|center_horizontal"
-        android:id="@+id/rowPosition"
-        android:text="4"
-        android:textSize="32sp"
+        android:src="@drawable/icons8_money_48"
         android:layout_marginEnd="10dp"
         />
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:layout_weight="2"
+        android:layout_weight="1"
         >
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="16sp"
             android:textStyle="bold"
-            android:text="Michael Scott"
+            android:text="Buy"
             android:gravity="start"
-            android:id="@+id/rowName"
+            android:id="@+id/row_type"
             />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="12sp"
-            android:textStyle="italic"
-            android:text="Don't ever, for any reason, do anything to anyone, for any reason, ever, no matter what."
+            android:textSize="16sp"
+            android:text="May 12, 2024"
             android:gravity="start"
-            android:id="@+id/rowTagline"
+            android:id="@+id/row_date"
             />
     </LinearLayout>
     <LinearLayout
@@ -61,19 +41,24 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:layout_weight="1"
-        android:layout_gravity=""
         >
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="$10,000"
             android:textSize="16sp"
-            android:textStyle="bold"
             android:layout_gravity="end"
-            android:id="@+id/rowScore"
+            android:id="@+id/row_value"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:text="Company A"
+            android:layout_gravity="end"
+            android:id="@+id/row_company"
             />
     </LinearLayout>
 
 
 </LinearLayout>
-</com.google.android.material.card.MaterialCardView>

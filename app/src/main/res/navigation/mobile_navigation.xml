@@ -42,4 +42,16 @@
         android:label="Company Page"
         tools:layout="@layout/fragment_companypage" >
     </fragment>
+
+    <fragment
+        android:id="@+id/navigation_history"
+        android:name="com.example.stockmarketshowdown.ui.history.HistoryFragment"
+        android:label="History"
+        tools:layout="@layout/fragment_history"/>
+
+    <fragment
+        android:id="@+id/navigation_leaderboard"
+        android:name="com.example.stockmarketshowdown.ui.leaderboard.LeaderboardFragment"
+        android:label="Leaderboard"
+        tools:layout="@layout/fragment_leaderboard"/>
 </navigation>
