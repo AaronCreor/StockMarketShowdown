@@ -3,6 +3,7 @@ package com.example.stockmarketshowdown
 import Company
 import Repository
 import android.content.Context
+import android.widget.Spinner
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
