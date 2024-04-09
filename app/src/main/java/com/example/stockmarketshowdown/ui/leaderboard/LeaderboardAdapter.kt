@@ -1,5 +1,6 @@
 package com.example.stockmarketshowdown.ui.leaderboard
 
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View.GONE
 import android.view.View.VISIBLE
@@ -7,6 +8,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.example.stockmarketshowdown.R
 import com.example.stockmarketshowdown.databinding.LeaderboardRowBinding
 
 class LeaderboardAdapter(private val viewModel: LeaderboardViewModel)
@@ -39,14 +41,27 @@ class LeaderboardAdapter(private val viewModel: LeaderboardViewModel)
                 if (position == 0 || position == 1 || position == 2) {
                     holder.rowBinding.rowImage.visibility = VISIBLE
                     holder.rowBinding.rowPosition.visibility = GONE
+
+                    if (position == 0) {
+                        holder.rowBinding.root.setBackgroundColor(Color.rgb(240, 200, 91))
+                        holder.rowBinding.rowImage.setImageResource(R.drawable.ic_gold_crown)
+                    } else if (position == 1) {
+                        holder.rowBinding.root.setBackgroundColor(Color.rgb(196, 193, 183))
+                        holder.rowBinding.rowImage.setImageResource(R.drawable.ic_silver_crown)
+                    } else {
+                        holder.rowBinding.root.setBackgroundColor(Color.rgb(252, 167, 30))
+                        holder.rowBinding.rowImage.setImageResource(R.drawable.ic_bronze_crown)
+                    }
                 } else {
                     holder.rowBinding.rowImage.visibility = GONE
                     holder.rowBinding.rowPosition.visibility = VISIBLE
                 }
 
                 holder.rowBinding.rowName.text = leaderboardEntry.name
-                holder.rowBinding.rowScore.text = leaderboardEntry.score.toString()
+                val formatted = String.format("$%.2f", leaderboardEntry.score)
+                holder.rowBinding.rowScore.text = formatted
                 holder.rowBinding.rowTagline.text = leaderboardEntry.tagline
+                holder.rowBinding.rowPosition.text = (position + 1).toString()
             }
         }
 

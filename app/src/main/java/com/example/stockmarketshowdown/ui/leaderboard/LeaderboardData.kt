@@ -48,7 +48,7 @@ object LeaderboardData {
         ),
         LeaderboardEntry(
             "7",
-            SpannableString("Daisaku Kuze"),
+            SpannableString("C.J."),
             9994.00,
             SpannableString("Insert quote here")
         ),

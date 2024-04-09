@@ -2,7 +2,7 @@
 <com.google.android.material.card.MaterialCardView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="wrap_content"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
     app:cardCornerRadius="10dp"
     android:layout_margin="10dp"
@@ -18,12 +18,14 @@
         android:layout_height="48dp"
         android:id="@+id/rowImage"
         android:src="@drawable/icons8_crown_48"
+        android:elevation="2dp"
+        android:background="@drawable/ic_myrect"
         android:layout_marginEnd="10dp"
         />
     <TextView
         android:layout_width="48dp"
         android:layout_height="48dp"
-        android:gravity="center"
+        android:gravity="top|center_horizontal"
         android:id="@+id/rowPosition"
         android:text="4"
         android:textSize="32sp"

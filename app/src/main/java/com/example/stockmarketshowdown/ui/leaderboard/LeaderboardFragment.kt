@@ -10,6 +10,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.stockmarketshowdown.MainActivity
 import com.example.stockmarketshowdown.R
 import com.example.stockmarketshowdown.databinding.FragmentLeaderboardBinding
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
+import java.util.Locale
 
 class LeaderboardFragment : Fragment(R.layout.fragment_leaderboard) {
     private val viewModel: LeaderboardViewModel by activityViewModels()
@@ -20,7 +23,8 @@ class LeaderboardFragment : Fragment(R.layout.fragment_leaderboard) {
         val binding = FragmentLeaderboardBinding.bind(view)
         Log.d(javaClass.simpleName, "onViewCreated")
         val mainActivity = (requireActivity() as MainActivity)
-
+        val currentTime = LocalDate.now()
+        val formatter = DateTimeFormatter.ofPattern("MMMM d", Locale.ENGLISH)
         val adapter = LeaderboardAdapter(viewModel)
 
         val rv = binding.recyclerView
@@ -29,6 +33,7 @@ class LeaderboardFragment : Fragment(R.layout.fragment_leaderboard) {
         rv.addItemDecoration(itemDecor)
         rv.adapter = adapter
         rv.layoutManager = LinearLayoutManager(rv.context)
+        binding.header.text = currentTime.format(formatter) + " Balance"
 
         viewModel.observeLeaderboardList().observe(viewLifecycleOwner) {
             adapter.submitList(it)
