@@ -20,6 +20,9 @@ import com.example.stockmarketshowdown.api.StockProfileResponse
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import com.bumptech.glide.Glide
+import android.content.Intent
+import android.net.Uri
 
 
 class CompanyPageFragment : Fragment() {
@@ -61,8 +64,29 @@ class CompanyPageFragment : Fragment() {
             override fun onResponse(call: Call<StockProfileResponse>, response: Response<StockProfileResponse>) {
                 if (response.isSuccessful) {
                     val stockProfileResponse = response.body()
-                    val ipoDate = stockProfileResponse?.ipo
-                    binding.ipo.text = ipoDate
+                    binding.webUrl.text = "Website"
+                    binding.companyName.text = stockProfileResponse?.name
+                    binding.ticker.text = stockProfileResponse?.ticker
+                    binding.exchange.text = stockProfileResponse?.exchange
+                    binding.webUrl.setOnClickListener {
+                        val url = stockProfileResponse?.weburl
+                        if (!url.isNullOrEmpty()) {
+                            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+                            startActivity(intent)
+                        } else {
+                            //TODO Handle case where URL is empty or null
+                        }
+                    }
+                    binding.industry.text = stockProfileResponse?.finnhubIndustry
+                    binding.ipo.text = stockProfileResponse?.ipo
+                    val logoUrl = stockProfileResponse?.logo
+                    if (!logoUrl.isNullOrEmpty()) {
+                        Glide.with(requireContext())
+                            .load(logoUrl)
+                            .into(binding.companyLogo)
+                    } else {
+                        //TODO Handle case where logo URL is empty or null
+                    }
                 } else {
                     //TODO unsuccessful response
                 }
