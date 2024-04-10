@@ -79,5 +79,8 @@ dependencies {
     implementation("com.google.firebase:firebase-analytics")
     implementation("com.google.code.gson:gson:2.8.8")
     annotationProcessor("com.github.bumptech.glide:compiler:4.12.0")
+    val appcompat_version = "1.6.1"
+    implementation("androidx.appcompat:appcompat:$appcompat_version")
+
 
 }

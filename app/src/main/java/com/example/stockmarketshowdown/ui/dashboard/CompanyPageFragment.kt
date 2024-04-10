@@ -108,7 +108,7 @@ class CompanyPageFragment : Fragment() {
                     }
                 }
             } else {
-                showSnackbar("Please enter a valid quantity and price")
+                showSnackbar("Please enter a valid quantity")
             }
         }
         val index = arguments?.getInt("companyIndex") ?: -1
@@ -253,7 +253,7 @@ class CompanyPageFragment : Fragment() {
                 if (response.isSuccessful) {
                     val quoteResponse = response.body()
                     val currentPrice = quoteResponse?.c
-                    binding.price.text = currentPrice.toString()
+                    binding.price.text = "$${currentPrice.toString()}"
                 } else {
                     //TODO unsuccessful response
                 }
