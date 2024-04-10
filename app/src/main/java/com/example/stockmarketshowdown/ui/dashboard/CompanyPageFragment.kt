@@ -2,6 +2,7 @@ package com.example.stockmarketshowdown.ui.dashboard
 
 import Company
 import android.app.Activity
+import android.app.AlertDialog
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -61,33 +62,54 @@ class CompanyPageFragment : Fragment() {
         finnhubApi = FinnhubApi.create()
         val spinner = binding.progressBar
         binding.buyButton.setOnClickListener {
-            spinner.visibility = View.VISIBLE
+            // Get the quantity and price
             val quantity = binding.quantityEditText.text.toString().toIntOrNull()
-            if (quantity != null && quantity > 0) {
-                val currentUserUID = FirebaseAuth.getInstance().currentUser?.uid
-                val price = binding.price.text.toString().toDouble()
+            val price = binding.price.text.toString().toDoubleOrNull()
+
+            if (quantity != null && quantity > 0 && price != null) {
                 val totalCost = quantity * price
+                val currentUserUID = FirebaseAuth.getInstance().currentUser?.uid
+
                 lifecycleScope.launch {
                     val userCash = SMS().getUserCash(currentUserUID!!)
                     if (userCash != null) {
                         if (userCash >= totalCost.toBigDecimal()) {
-                            val remainingCash = userCash - totalCost.toBigDecimal()
-                            SMS().insertTransaction(currentUserUID, "BUY", totalCost.toBigDecimal(), binding.ticker.text.toString())
-                            SMS().updateCash(currentUserUID, remainingCash)
-                            SMS().insertPortfolio(currentUserUID, binding.ticker.text.toString(), quantity, totalCost.toBigDecimal())
+                            showConfirmationDialogueBuy(totalCost)
                         } else {
                             showSnackbar("Insufficient funds")
                         }
                     }
-
                 }
             } else {
-                showSnackbar("Please enter a valid quantity")
+                showSnackbar("Please enter a valid quantity and price")
             }
-            spinner.visibility = View.GONE
         }
+            spinner.visibility = View.GONE
         binding.sellButton.setOnClickListener {
+            // Get the quantity and price
+            val quantity = binding.quantityEditText.text.toString().toIntOrNull()
+            val price = binding.price.text.toString().toDoubleOrNull()
 
+            if (quantity != null && quantity > 0 && price != null) {
+                val totalCost = quantity * price
+                val currentUserUID = FirebaseAuth.getInstance().currentUser?.uid
+
+                lifecycleScope.launch {
+                    val userCash = SMS().getUserCash(currentUserUID!!)
+                    if (userCash != null) {
+                        val userPortfolio = SMS().getUserPortfolio(currentUserUID)
+                        val stockToSell =
+                            userPortfolio.firstOrNull { it.company == binding.ticker.text.toString() }
+                        if (stockToSell != null && stockToSell.totalOwnership >= quantity) {
+                            showConfirmationDialogueSell(totalCost)
+                        } else {
+                            showSnackbar("Insufficient stocks to sell")
+                        }
+                    }
+                }
+            } else {
+                showSnackbar("Please enter a valid quantity and price")
+            }
         }
         val index = arguments?.getInt("companyIndex") ?: -1
         val company = viewModel.getCurrentCompanyInfo(index)
@@ -101,6 +123,91 @@ class CompanyPageFragment : Fragment() {
             }
         }
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, onBackPressedCallback)
+    }
+
+    private fun showConfirmationDialogueBuy(totalCost: Double) {
+        val builder = AlertDialog.Builder(requireContext())
+        val costText = totalCost.formatToTwoDecimalPlaces().toString()
+        builder.setTitle("Confirm Trade")
+        builder.setMessage("Are you sure you want to execute this trade?\nTotal value: $costText")
+        builder.setPositiveButton("Yes") { dialog, _ ->
+            executeBuy()
+            dialog.dismiss()
+            clearQuantityEditText()
+            hideKeyboard()
+        }
+        builder.setNegativeButton("No") { dialog, _ ->
+            dialog.dismiss()
+            clearQuantityEditText()
+            hideKeyboard()
+        }
+        val dialog = builder.create()
+        dialog.show()
+    }
+    private fun executeBuy() {
+        val quantity = binding.quantityEditText.text.toString().toInt()
+        val currentUserUID = FirebaseAuth.getInstance().currentUser?.uid
+        val price = binding.price.text.toString().toDouble()
+        val totalCost = quantity * price
+        val costText = totalCost.formatToTwoDecimalPlaces().toString()
+
+        lifecycleScope.launch {
+            val remainingCash = SMS().getUserCash(currentUserUID!!)!! - totalCost.toBigDecimal()
+            SMS().insertTransaction(currentUserUID, "BUY", totalCost.toBigDecimal(), binding.ticker.text.toString())
+            SMS().updateCash(currentUserUID, remainingCash)
+            SMS().insertPortfolio(currentUserUID, binding.ticker.text.toString(), quantity, totalCost.toBigDecimal())
+
+            showSnackbar("Buy executed successfully. Total value: $costText")
+        }
+    }
+
+    private fun showConfirmationDialogueSell(totalCost: Double) {
+        val builder = AlertDialog.Builder(requireContext())
+        val costText = totalCost.formatToTwoDecimalPlaces().toString()
+        builder.setTitle("Confirm Trade")
+        builder.setMessage("Are you sure you want to execute this trade?\nTotal value: $costText")
+        builder.setPositiveButton("Yes") { dialog, _ ->
+            executeSell()
+            dialog.dismiss()
+            clearQuantityEditText()
+            hideKeyboard()
+        }
+        builder.setNegativeButton("No") { dialog, _ ->
+            dialog.dismiss()
+            clearQuantityEditText()
+            hideKeyboard()
+        }
+        val dialog = builder.create()
+        dialog.show()
+    }
+    private fun executeSell() {
+        val quantity = binding.quantityEditText.text.toString().toInt()
+        val currentUserUID = FirebaseAuth.getInstance().currentUser?.uid
+        val price = binding.price.text.toString().toDouble()
+        val totalCost = quantity * price
+        val costText = totalCost.formatToTwoDecimalPlaces().toString()
+
+        lifecycleScope.launch {
+            val remainingCash = SMS().getUserCash(currentUserUID!!)!! + totalCost.toBigDecimal()
+            SMS().insertTransaction(currentUserUID, "SELL", totalCost.toBigDecimal(), binding.ticker.text.toString())
+            SMS().updateCash(currentUserUID, remainingCash)
+            SMS().updatePortfolio(currentUserUID, binding.ticker.text.toString(), -quantity)
+
+            showSnackbar("Sell executed successfully. Total value: $costText")
+        }
+    }
+
+    private fun clearQuantityEditText() {
+        binding.quantityEditText.text.clear()
+    }
+
+    private fun hideKeyboard() {
+        val imm = requireActivity().getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.hideSoftInputFromWindow(binding.quantityEditText.windowToken, 0)
+    }
+
+    private fun Double.formatToTwoDecimalPlaces(): Double {
+        return String.format("%.2f", this).toDouble()
     }
 
     private fun apiStuff(company: Company){
