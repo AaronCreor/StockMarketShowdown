@@ -60,6 +60,7 @@ class CompanyPageFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         viewModel = ViewModelProvider(requireActivity()).get(MainViewModel::class.java)
         finnhubApi = FinnhubApi.create()
+        fetchUserPortfolio()
         val spinner = binding.progressBar
         binding.buyButton.setOnClickListener {
             // Get the quantity and price
@@ -81,7 +82,7 @@ class CompanyPageFragment : Fragment() {
                     }
                 }
             } else {
-                showSnackbar("Please enter a valid quantity and price")
+                showSnackbar("Please enter a valid quantity")
             }
         }
             spinner.visibility = View.GONE
@@ -156,7 +157,7 @@ class CompanyPageFragment : Fragment() {
             SMS().insertTransaction(currentUserUID, "BUY", totalCost.toBigDecimal(), binding.ticker.text.toString())
             SMS().updateCash(currentUserUID, remainingCash)
             SMS().insertPortfolio(currentUserUID, binding.ticker.text.toString(), quantity, totalCost.toBigDecimal())
-
+            fetchUserPortfolio()
             showSnackbar("Buy executed successfully. Total value: $costText")
         }
     }
@@ -192,7 +193,7 @@ class CompanyPageFragment : Fragment() {
             SMS().insertTransaction(currentUserUID, "SELL", totalCost.toBigDecimal(), binding.ticker.text.toString())
             SMS().updateCash(currentUserUID, remainingCash)
             SMS().updatePortfolio(currentUserUID, binding.ticker.text.toString(), -quantity)
-
+            fetchUserPortfolio()
             showSnackbar("Sell executed successfully. Total value: $costText")
         }
     }
@@ -253,7 +254,7 @@ class CompanyPageFragment : Fragment() {
                 if (response.isSuccessful) {
                     val quoteResponse = response.body()
                     val currentPrice = quoteResponse?.c
-                    binding.price.text = "$${currentPrice.toString()}"
+                    binding.price.text = currentPrice.toString()
                 } else {
                     //TODO unsuccessful response
                 }
@@ -262,6 +263,16 @@ class CompanyPageFragment : Fragment() {
                 //TODO Handle failure
             }
         })
+    }
+
+    private fun fetchUserPortfolio() {
+        lifecycleScope.launch {
+            val currentUserUID = FirebaseAuth.getInstance().currentUser?.uid
+            val userPortfolio = SMS().getUserPortfolio(currentUserUID!!)
+            val companySymbol = binding.ticker.text.toString()
+            val ownedShares = userPortfolio.firstOrNull { it.company == companySymbol }?.totalOwnership ?: 0
+            binding.sharesOwned.text = ownedShares.toString()
+        }
     }
 
     override fun onDestroyView() {
