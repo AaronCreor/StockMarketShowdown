@@ -61,6 +61,7 @@ class CompanyPageFragment : Fragment() {
         viewModel = ViewModelProvider(requireActivity()).get(MainViewModel::class.java)
         finnhubApi = FinnhubApi.create()
         fetchUserPortfolio()
+        fetchUserCash()
         val spinner = binding.progressBar
         binding.buyButton.setOnClickListener {
             // Get the quantity and price
@@ -158,6 +159,7 @@ class CompanyPageFragment : Fragment() {
             SMS().updateCash(currentUserUID, remainingCash)
             SMS().insertPortfolio(currentUserUID, binding.ticker.text.toString(), quantity, totalCost.toBigDecimal())
             fetchUserPortfolio()
+            fetchUserCash()
             showSnackbar("Buy executed successfully. Total value: $costText")
         }
     }
@@ -194,6 +196,7 @@ class CompanyPageFragment : Fragment() {
             SMS().updateCash(currentUserUID, remainingCash)
             SMS().updatePortfolio(currentUserUID, binding.ticker.text.toString(), -quantity)
             fetchUserPortfolio()
+            fetchUserCash()
             showSnackbar("Sell executed successfully. Total value: $costText")
         }
     }
@@ -272,6 +275,15 @@ class CompanyPageFragment : Fragment() {
             val companySymbol = binding.ticker.text.toString()
             val ownedShares = userPortfolio.firstOrNull { it.company == companySymbol }?.totalOwnership ?: 0
             binding.sharesOwned.text = ownedShares.toString()
+        }
+    }
+
+    private fun fetchUserCash() {
+        lifecycleScope.launch {
+            val currentUserUID = FirebaseAuth.getInstance().currentUser?.uid
+            val userCash = SMS().getUserCash(currentUserUID!!)
+            val formattedCash = "$${userCash.toString()}"
+            binding.cashOwned.text = formattedCash
         }
     }
 
