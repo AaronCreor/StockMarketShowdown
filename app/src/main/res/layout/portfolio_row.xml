@@ -26,7 +26,6 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:textSize="14sp"
-        android:layout_marginBottom="8dp"
         app:layout_constraintStart_toEndOf="@id/text_asset_name"
         app:layout_constraintTop_toTopOf="@id/text_asset_name"
         app:layout_constraintEnd_toStartOf="@id/text_asset_value"
@@ -38,11 +37,17 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:textSize="14sp"
-
-        android:layout_marginBottom="8dp"
         app:layout_constraintStart_toEndOf="@id/text_asset_quantity"
         app:layout_constraintTop_toTopOf="@id/text_asset_quantity"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_gravity="center_vertical"/>
+
+    <View
+        android:id="@+id/line"
+        android:layout_width="match_parent"
+        android:layout_marginTop="1dp"
+        android:layout_height="1dp"
+        android:background="#333333"
+        app:layout_constraintTop_toBottomOf="@id/text_asset_value"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

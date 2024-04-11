@@ -1,5 +1,6 @@
 package com.example.stockmarketshowdown.ui.home
 
+import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -13,6 +14,14 @@ import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import androidx.navigation.fragment.findNavController
+import com.example.stockmarketshowdown.ui.home.HomeFragmentDirections
+
+enum class SortColumn {
+    NAME,
+    PRICE,
+    QUANTITY
+}
 
 class HomeFragment : Fragment() {
 
@@ -30,34 +39,60 @@ class HomeFragment : Fragment() {
         val root: View = binding.root
 
         val userID = FirebaseAuth.getInstance().currentUser?.uid
-        portfolioAdapter = RVPortfolioAdapter(mutableListOf())
+        portfolioAdapter = RVPortfolioAdapter(mutableListOf()) { ticker ->
+            val action = HomeFragmentDirections.actionNavigationHomeToCompanyPageFragment(ticker)
+            findNavController().navigate(action)
+        }
         binding.recyclerAssets.apply {
             layoutManager = LinearLayoutManager(requireContext())
             adapter = portfolioAdapter
         }
 
         GlobalScope.launch(Dispatchers.Main) {
-            // Get user's assets
             val assets = userID?.let { SMS().getUserAssets(it).toMutableList() }
             if (assets != null) {
-                // Update assets in the RecyclerView
                 portfolioAdapter.updateAssets(assets)
-
-                // Calculate total asset value
+                setupSorting()
                 val totalAssetValue = assets.sumOf { it.value }.toString()
-
-                // Get user's cash balance
                 val cash = userID.let { SMS().getUserCash(it) }
-
-                // Calculate total portfolio value
                 val totalPortfolioValue = cash?.add(totalAssetValue.toBigDecimal())
-
-                // Set the text of the TextView to display the total portfolio value with a "$" sign at the beginning
                 binding.textPortfolioValue.text = "$$totalPortfolioValue"
             }
         }
 
         return root
+    }
+
+    private fun setupSorting() {
+        binding.textTickerTitle.setOnClickListener {
+            portfolioAdapter.sortByColumn(SortColumn.NAME, !portfolioAdapter.isAscending())
+            updateSortTitleBackground(binding.textTickerTitle, SortColumn.NAME)
+        }
+
+        binding.textValueTitle.setOnClickListener {
+            portfolioAdapter.sortByColumn(SortColumn.PRICE, !portfolioAdapter.isAscending())
+            updateSortTitleBackground(binding.textValueTitle, SortColumn.PRICE)
+        }
+
+        binding.textQuantityTitle.setOnClickListener {
+            portfolioAdapter.sortByColumn(SortColumn.QUANTITY, !portfolioAdapter.isAscending())
+            updateSortTitleBackground(binding.textQuantityTitle, SortColumn.QUANTITY)
+        }
+    }
+
+    private fun updateSortTitleBackground(view: View, column: SortColumn) {
+        // Reset all column title colors to transparent
+        binding.textTickerTitle.setBackgroundColor(Color.TRANSPARENT)
+        binding.textValueTitle.setBackgroundColor(Color.TRANSPARENT)
+        binding.textQuantityTitle.setBackgroundColor(Color.TRANSPARENT)
+
+        // Set the background color of the clicked title to yellow
+        val backgroundColor = if (portfolioAdapter.getSortColumn() == column) {
+            if (portfolioAdapter.isAscending()) Color.YELLOW else Color.RED
+        } else {
+            Color.TRANSPARENT
+        }
+        view.setBackgroundColor(backgroundColor)
     }
 
     override fun onDestroyView() {
