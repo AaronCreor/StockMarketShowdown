@@ -2,6 +2,7 @@ package com.example.stockmarketshowdown.database
 
 import android.os.StrictMode
 import android.util.Log
+import com.example.stockmarketshowdown.ui.home.Asset
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -288,6 +289,33 @@ public class SMS {
         }
 
         connection.close()
+    }
+
+    suspend fun getUserAssets(userID: String): List<Asset> = withContext(Dispatchers.IO) {
+        val connection = getConnection()
+        val query = """
+        SELECT Company, Ownership, Cost
+        FROM Portfolio
+        WHERE UserID = ?
+    """.trimIndent()
+
+        val preparedStatement = connection.prepareStatement(query)
+        preparedStatement.setString(1, userID)
+        val resultSet = preparedStatement.executeQuery()
+
+        val assets = mutableListOf<Asset>()
+        while (resultSet.next()) {
+            val name = resultSet.getString("Company")
+            val quantity = resultSet.getInt("Ownership")
+            val cost = resultSet.getBigDecimal("Cost")
+            assets.add(Asset(name, quantity, cost))
+        }
+
+        resultSet.close()
+        preparedStatement.close()
+        connection.close()
+
+        assets
     }
 
 }

@@ -50,10 +50,11 @@ class MainActivity : AppCompatActivity() {
                 R.id.navigation_leaderboard
             )
         )
-
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
     }
+
+
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             android.R.id.home -> {

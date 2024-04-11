@@ -16,6 +16,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
+import com.example.stockmarketshowdown.MainActivity
 import com.example.stockmarketshowdown.MainViewModel
 import com.example.stockmarketshowdown.api.FinnhubApi
 import com.example.stockmarketshowdown.api.QuoteResponse
@@ -58,11 +59,14 @@ class CompanyPageFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel = ViewModelProvider(requireActivity()).get(MainViewModel::class.java)
+        val mainActivity = (requireActivity() as MainActivity)
+        viewModel = ViewModelProvider(requireActivity())[MainViewModel::class.java]
         finnhubApi = FinnhubApi.create()
-        val spinner = binding.progressBar
+        fetchUserPortfolio()
+        fetchUserCash()
         binding.buyButton.setOnClickListener {
             // Get the quantity and price
+            mainActivity.progressBarOn()
             val quantity = binding.quantityEditText.text.toString().toIntOrNull()
             val price = binding.price.text.toString().toDoubleOrNull()
 
@@ -81,12 +85,13 @@ class CompanyPageFragment : Fragment() {
                     }
                 }
             } else {
-                showSnackbar("Please enter a valid quantity and price")
+                showSnackbar("Please enter a valid quantity")
             }
+            mainActivity.progressBarOff()
         }
-            spinner.visibility = View.GONE
         binding.sellButton.setOnClickListener {
             // Get the quantity and price
+            mainActivity.progressBarOn()
             val quantity = binding.quantityEditText.text.toString().toIntOrNull()
             val price = binding.price.text.toString().toDoubleOrNull()
 
@@ -108,8 +113,9 @@ class CompanyPageFragment : Fragment() {
                     }
                 }
             } else {
-                showSnackbar("Please enter a valid quantity and price")
+                showSnackbar("Please enter a valid quantity")
             }
+            mainActivity.progressBarOff()
         }
         val index = arguments?.getInt("companyIndex") ?: -1
         val company = viewModel.getCurrentCompanyInfo(index)
@@ -156,7 +162,8 @@ class CompanyPageFragment : Fragment() {
             SMS().insertTransaction(currentUserUID, "BUY", totalCost.toBigDecimal(), binding.ticker.text.toString())
             SMS().updateCash(currentUserUID, remainingCash)
             SMS().insertPortfolio(currentUserUID, binding.ticker.text.toString(), quantity, totalCost.toBigDecimal())
-
+            fetchUserPortfolio()
+            fetchUserCash()
             showSnackbar("Buy executed successfully. Total value: $costText")
         }
     }
@@ -192,7 +199,8 @@ class CompanyPageFragment : Fragment() {
             SMS().insertTransaction(currentUserUID, "SELL", totalCost.toBigDecimal(), binding.ticker.text.toString())
             SMS().updateCash(currentUserUID, remainingCash)
             SMS().updatePortfolio(currentUserUID, binding.ticker.text.toString(), -quantity)
-
+            fetchUserPortfolio()
+            fetchUserCash()
             showSnackbar("Sell executed successfully. Total value: $costText")
         }
     }
@@ -262,6 +270,25 @@ class CompanyPageFragment : Fragment() {
                 //TODO Handle failure
             }
         })
+    }
+
+    private fun fetchUserPortfolio() {
+        lifecycleScope.launch {
+            val currentUserUID = FirebaseAuth.getInstance().currentUser?.uid
+            val userPortfolio = SMS().getUserPortfolio(currentUserUID!!)
+            val companySymbol = binding.ticker.text.toString()
+            val ownedShares = userPortfolio.firstOrNull { it.company == companySymbol }?.totalOwnership ?: 0
+            binding.sharesOwned.text = ownedShares.toString()
+        }
+    }
+
+    private fun fetchUserCash() {
+        lifecycleScope.launch {
+            val currentUserUID = FirebaseAuth.getInstance().currentUser?.uid
+            val userCash = SMS().getUserCash(currentUserUID!!)
+            val formattedCash = "$${userCash.toString()}"
+            binding.cashOwned.text = formattedCash
+        }
     }
 
     override fun onDestroyView() {
