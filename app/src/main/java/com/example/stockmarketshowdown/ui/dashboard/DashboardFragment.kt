@@ -36,7 +36,9 @@ class DashboardFragment : Fragment() {
         viewModel = ViewModelProvider(requireActivity()).get(MainViewModel::class.java)
         adapter = RVDiffAdapter(viewModel) { company ->
             // Handle item click here, navigate to CompanyPageFragment
-            findNavController().navigate(DashboardFragmentDirections.actionNavigationDashboardToCompanyPageFragment(company))
+            findNavController().navigate(
+                DashboardFragmentDirections.actionNavigationDashboardToCompanyPageFragment(company)
+            )
         }
 
         binding.companyRV.layoutManager = LinearLayoutManager(requireContext())
