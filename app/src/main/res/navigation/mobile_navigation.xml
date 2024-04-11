@@ -36,6 +36,7 @@
         android:name="com.example.stockmarketshowdown.ui.profile.ProfileFragment"
         android:label="Profile"
         tools:layout="@layout/fragment_profile"/>
+
     <fragment
         android:id="@+id/companyPageFragment"
         android:name="com.example.stockmarketshowdown.ui.dashboard.CompanyPageFragment"

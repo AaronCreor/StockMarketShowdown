@@ -16,6 +16,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
+import com.example.stockmarketshowdown.MainActivity
 import com.example.stockmarketshowdown.MainViewModel
 import com.example.stockmarketshowdown.api.FinnhubApi
 import com.example.stockmarketshowdown.api.QuoteResponse
@@ -58,13 +59,14 @@ class CompanyPageFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel = ViewModelProvider(requireActivity()).get(MainViewModel::class.java)
+        val mainActivity = (requireActivity() as MainActivity)
+        viewModel = ViewModelProvider(requireActivity())[MainViewModel::class.java]
         finnhubApi = FinnhubApi.create()
         fetchUserPortfolio()
         fetchUserCash()
-        val spinner = binding.progressBar
         binding.buyButton.setOnClickListener {
             // Get the quantity and price
+            mainActivity.progressBarOn()
             val quantity = binding.quantityEditText.text.toString().toIntOrNull()
             val price = binding.price.text.toString().toDoubleOrNull()
 
@@ -85,10 +87,11 @@ class CompanyPageFragment : Fragment() {
             } else {
                 showSnackbar("Please enter a valid quantity")
             }
+            mainActivity.progressBarOff()
         }
-            spinner.visibility = View.GONE
         binding.sellButton.setOnClickListener {
             // Get the quantity and price
+            mainActivity.progressBarOn()
             val quantity = binding.quantityEditText.text.toString().toIntOrNull()
             val price = binding.price.text.toString().toDoubleOrNull()
 
@@ -112,6 +115,7 @@ class CompanyPageFragment : Fragment() {
             } else {
                 showSnackbar("Please enter a valid quantity")
             }
+            mainActivity.progressBarOff()
         }
         val index = arguments?.getInt("companyIndex") ?: -1
         val company = viewModel.getCurrentCompanyInfo(index)
