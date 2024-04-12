@@ -39,7 +39,7 @@ class HomeFragment : Fragment() {
         val root: View = binding.root
 
         val userID = FirebaseAuth.getInstance().currentUser?.uid
-        val portfolioAdapter = RVPortfolioAdapter(requireContext(), mutableListOf()) { index ->
+        portfolioAdapter = RVPortfolioAdapter(requireContext(), mutableListOf()) { index ->
             val action = HomeFragmentDirections.actionNavigationHomeToCompanyPageFragment(index)
             findNavController().navigate(action)
         }
@@ -65,18 +65,24 @@ class HomeFragment : Fragment() {
 
     private fun setupSorting() {
         binding.textTickerTitle.setOnClickListener {
-            portfolioAdapter.sortByColumn(SortColumn.NAME, !portfolioAdapter.isAscending())
-            updateSortTitleBackground(binding.textTickerTitle, SortColumn.NAME)
+            if (::portfolioAdapter.isInitialized) {
+                portfolioAdapter.sortByColumn(SortColumn.NAME, !portfolioAdapter.isAscending())
+                updateSortTitleBackground(binding.textTickerTitle, SortColumn.NAME)
+            }
         }
 
         binding.textValueTitle.setOnClickListener {
-            portfolioAdapter.sortByColumn(SortColumn.PRICE, !portfolioAdapter.isAscending())
-            updateSortTitleBackground(binding.textValueTitle, SortColumn.PRICE)
+            if (::portfolioAdapter.isInitialized) {
+                portfolioAdapter.sortByColumn(SortColumn.PRICE, !portfolioAdapter.isAscending())
+                updateSortTitleBackground(binding.textValueTitle, SortColumn.PRICE)
+            }
         }
 
         binding.textQuantityTitle.setOnClickListener {
-            portfolioAdapter.sortByColumn(SortColumn.QUANTITY, !portfolioAdapter.isAscending())
-            updateSortTitleBackground(binding.textQuantityTitle, SortColumn.QUANTITY)
+            if (::portfolioAdapter.isInitialized) {
+                portfolioAdapter.sortByColumn(SortColumn.QUANTITY, !portfolioAdapter.isAscending())
+                updateSortTitleBackground(binding.textQuantityTitle, SortColumn.QUANTITY)
+            }
         }
     }
 
