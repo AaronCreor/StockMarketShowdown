@@ -14,11 +14,10 @@
             android:id="@+id/action_navigation_home_to_companyPageFragment"
             app:destination="@id/companyPageFragment" >
             <argument
-                android:name="ticker"
-                app:argType="string" />
+                android:name="companyIndex"
+                app:argType="integer" />
         </action>
     </fragment>
-
 
 
     <fragment

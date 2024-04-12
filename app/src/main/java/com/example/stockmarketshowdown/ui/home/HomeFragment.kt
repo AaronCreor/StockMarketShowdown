@@ -39,8 +39,8 @@ class HomeFragment : Fragment() {
         val root: View = binding.root
 
         val userID = FirebaseAuth.getInstance().currentUser?.uid
-        portfolioAdapter = RVPortfolioAdapter(mutableListOf()) { ticker ->
-            val action = HomeFragmentDirections.actionNavigationHomeToCompanyPageFragment(ticker)
+        val portfolioAdapter = RVPortfolioAdapter(requireContext(), mutableListOf()) { index ->
+            val action = HomeFragmentDirections.actionNavigationHomeToCompanyPageFragment(index)
             findNavController().navigate(action)
         }
         binding.recyclerAssets.apply {

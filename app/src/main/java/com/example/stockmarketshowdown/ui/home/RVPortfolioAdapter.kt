@@ -1,5 +1,7 @@
 package com.example.stockmarketshowdown.ui.home
 
+import Repository
+import android.content.Context
 import java.math.BigDecimal
 import android.view.LayoutInflater
 import android.view.View
@@ -16,7 +18,7 @@ data class Asset(
 )
 
 
-class RVPortfolioAdapter(private val assetList: MutableList<Asset>, private val listener: (String) -> Unit) :
+class RVPortfolioAdapter(private val context: Context, private val assetList: MutableList<Asset>, private val listener: (Int) -> Unit) :
     RecyclerView.Adapter<RVPortfolioAdapter.AssetViewHolder>() {
 
     private var sortColumn: SortColumn? = null
@@ -38,7 +40,8 @@ class RVPortfolioAdapter(private val assetList: MutableList<Asset>, private val 
                 val position = adapterPosition
                 if (position != RecyclerView.NO_POSITION) {
                     val asset = assetList[position]
-                    listener(asset.name) // Pass the ticker (name) to the listener
+                    val index = findCompanyIndexByTicker(asset.name)
+                    listener(index)
                 }
             }
         }
@@ -48,6 +51,13 @@ class RVPortfolioAdapter(private val assetList: MutableList<Asset>, private val 
             quantityTextView.text = asset.quantity.toString()
             valueTextView.text = asset.value.toString()
         }
+    }
+
+    private fun findCompanyIndexByTicker(ticker: String): Int {
+        val repository = Repository()
+        val companies = repository.loadCompaniesFromAssets(context)
+        val companyIndex = companies.indexOfFirst { it.symbol == ticker }
+        return if (companyIndex != -1) companyIndex else 0 // If not found, default to the first company
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AssetViewHolder {
