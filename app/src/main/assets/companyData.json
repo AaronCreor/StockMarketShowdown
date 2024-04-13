@@ -5725,18 +5725,6 @@
   },
   {
     "currency": "USD",
-    "description": "",
-    "displaySymbol": "PTEST.Z",
-    "figi": "",
-    "isin": null,
-    "mic": "XNYS",
-    "shareClassFIGI": "",
-    "symbol": "PTEST.Z",
-    "symbol2": "",
-    "type": ""
-  },
-  {
-    "currency": "USD",
     "description": "INTEGRATED WELLNESS ACQ - A",
     "displaySymbol": "WEL",
     "figi": "BBG013BWN343",
@@ -7270,18 +7258,6 @@
     "symbol": "JBK",
     "symbol2": "",
     "type": "PUBLIC"
-  },
-  {
-    "currency": "USD",
-    "description": "NYSE Tick Pilot TEST",
-    "displaySymbol": "NTEST",
-    "figi": "",
-    "isin": null,
-    "mic": "XNYS",
-    "shareClassFIGI": "",
-    "symbol": "NTEST",
-    "symbol2": "",
-    "type": ""
   },
   {
     "currency": "USD",
@@ -9838,18 +9814,6 @@
     "symbol": "MET.PRE",
     "symbol2": "",
     "type": "PUBLIC"
-  },
-  {
-    "currency": "USD",
-    "description": "",
-    "displaySymbol": "PTEST.X",
-    "figi": "",
-    "isin": null,
-    "mic": "XNYS",
-    "shareClassFIGI": "",
-    "symbol": "PTEST.X",
-    "symbol2": "",
-    "type": ""
   },
   {
     "currency": "USD",
@@ -12637,18 +12601,6 @@
   },
   {
     "currency": "USD",
-    "description": "Test",
-    "displaySymbol": "CBO",
-    "figi": "",
-    "isin": null,
-    "mic": "XNYS",
-    "shareClassFIGI": "",
-    "symbol": "CBO",
-    "symbol2": "",
-    "type": ""
-  },
-  {
-    "currency": "USD",
     "description": "REVVITY INC",
     "displaySymbol": "RVTY",
     "figi": "BBG000FXW512",
@@ -13738,18 +13690,6 @@
     "symbol": "MXE",
     "symbol2": "",
     "type": "Closed-End Fund"
-  },
-  {
-    "currency": "USD",
-    "description": "",
-    "displaySymbol": "ATEST.A",
-    "figi": "",
-    "isin": null,
-    "mic": "XNYS",
-    "shareClassFIGI": "",
-    "symbol": "ATEST.A",
-    "symbol2": "",
-    "type": ""
   },
   {
     "currency": "USD",
@@ -15742,18 +15682,6 @@
     "symbol": "MITT",
     "symbol2": "",
     "type": "REIT"
-  },
-  {
-    "currency": "USD",
-    "description": "TEST",
-    "displaySymbol": "CBX",
-    "figi": "",
-    "isin": null,
-    "mic": "XNYS",
-    "shareClassFIGI": "",
-    "symbol": "CBX",
-    "symbol2": "",
-    "type": ""
   },
   {
     "currency": "USD",
@@ -23938,18 +23866,6 @@
     "symbol": "RSI",
     "symbol2": "",
     "type": "Common Stock"
-  },
-  {
-    "currency": "USD",
-    "description": "",
-    "displaySymbol": "PTEST.Y",
-    "figi": "",
-    "isin": null,
-    "mic": "XNYS",
-    "shareClassFIGI": "",
-    "symbol": "PTEST.Y",
-    "symbol2": "",
-    "type": ""
   },
   {
     "currency": "USD",
@@ -40945,18 +40861,6 @@
   },
   {
     "currency": "USD",
-    "description": "TEST",
-    "displaySymbol": "ZXYZ.A",
-    "figi": "",
-    "isin": null,
-    "mic": "XNAS",
-    "shareClassFIGI": "",
-    "symbol": "ZXYZ.A",
-    "symbol2": "",
-    "type": ""
-  },
-  {
-    "currency": "USD",
     "description": "SYNCHRONOSS TECHNOLOGIES INC",
     "displaySymbol": "SNCR",
     "figi": "BBG000Q4SFZ0",
@@ -43690,18 +43594,6 @@
     "symbol": "TXG",
     "symbol2": "",
     "type": "Common Stock"
-  },
-  {
-    "currency": "USD",
-    "description": "TEST",
-    "displaySymbol": "ZTEST",
-    "figi": "",
-    "isin": null,
-    "mic": "XNAS",
-    "shareClassFIGI": "",
-    "symbol": "ZTEST",
-    "symbol2": "",
-    "type": ""
   },
   {
     "currency": "USD",
@@ -53185,18 +53077,6 @@
   },
   {
     "currency": "USD",
-    "description": "",
-    "displaySymbol": "MTEST",
-    "figi": "",
-    "isin": null,
-    "mic": "XNAS",
-    "shareClassFIGI": "",
-    "symbol": "MTEST",
-    "symbol2": "",
-    "type": ""
-  },
-  {
-    "currency": "USD",
     "description": "COMMERCIAL VEHICLE GROUP INC",
     "displaySymbol": "CVGI",
     "figi": "BBG000PZ0SW7",
@@ -55294,18 +55174,6 @@
     "symbol": "PAYO",
     "symbol2": "",
     "type": "Common Stock"
-  },
-  {
-    "currency": "USD",
-    "description": "",
-    "displaySymbol": "ATEST",
-    "figi": "",
-    "isin": null,
-    "mic": "XNAS",
-    "shareClassFIGI": "",
-    "symbol": "ATEST",
-    "symbol2": "",
-    "type": ""
   },
   {
     "currency": "USD",
@@ -60889,18 +60757,6 @@
   },
   {
     "currency": "USD",
-    "description": "Test",
-    "displaySymbol": "ZJZZT",
-    "figi": "",
-    "isin": null,
-    "mic": "XNAS",
-    "shareClassFIGI": "",
-    "symbol": "ZJZZT",
-    "symbol2": "",
-    "type": ""
-  },
-  {
-    "currency": "USD",
     "description": "CENAQ ENERGY CORP CL A -CW27",
     "displaySymbol": "VGASW",
     "figi": "BBG00ZHYRQT1",
@@ -65674,18 +65530,6 @@
     "symbol": "RMBS",
     "symbol2": "",
     "type": "Common Stock"
-  },
-  {
-    "currency": "USD",
-    "description": "TEST",
-    "displaySymbol": "ZXZZT",
-    "figi": "",
-    "isin": null,
-    "mic": "XNAS",
-    "shareClassFIGI": "",
-    "symbol": "ZXZZT",
-    "symbol2": "",
-    "type": ""
   },
   {
     "currency": "USD",
@@ -83857,18 +83701,6 @@
   },
   {
     "currency": "USD",
-    "description": "",
-    "displaySymbol": "CTEST",
-    "figi": "",
-    "isin": null,
-    "mic": "XNAS",
-    "shareClassFIGI": "",
-    "symbol": "CTEST",
-    "symbol2": "",
-    "type": ""
-  },
-  {
-    "currency": "USD",
     "description": "AUDDIA INC",
     "displaySymbol": "AUUD",
     "figi": "BBG00Y0537N9",
@@ -90841,18 +90673,6 @@
   },
   {
     "currency": "USD",
-    "description": "TEST",
-    "displaySymbol": "ZVZZT",
-    "figi": "",
-    "isin": null,
-    "mic": "XNAS",
-    "shareClassFIGI": "",
-    "symbol": "ZVZZT",
-    "symbol2": "",
-    "type": ""
-  },
-  {
-    "currency": "USD",
     "description": "AXS 1 5X PYPL Bear Daily ETF",
     "displaySymbol": "PYPT",
     "figi": "",
@@ -93706,18 +93526,6 @@
     "symbol": "CHNR",
     "symbol2": "",
     "type": "Common Stock"
-  },
-  {
-    "currency": "USD",
-    "description": "NETEASE INC-ADR",
-    "displaySymbol": "NTES",
-    "figi": "BBG000BX72V8",
-    "isin": null,
-    "mic": "XNAS",
-    "shareClassFIGI": "BBG001SCVWD1",
-    "symbol": "NTES",
-    "symbol2": "",
-    "type": "ADR"
   },
   {
     "currency": "USD",
