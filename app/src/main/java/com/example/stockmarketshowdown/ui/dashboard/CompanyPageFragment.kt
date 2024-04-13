@@ -161,7 +161,7 @@ class CompanyPageFragment : Fragment() {
             val remainingCash = SMS().getUserCash(currentUserUID!!)!! - totalCost.toBigDecimal()
             SMS().insertTransaction(currentUserUID, "BUY", totalCost.toBigDecimal(), binding.ticker.text.toString())
             SMS().updateCash(currentUserUID, remainingCash)
-            SMS().insertPortfolio(currentUserUID, binding.ticker.text.toString(), quantity, totalCost.toBigDecimal())
+            SMS().insertPortfolio(currentUserUID, binding.ticker.text.toString(), quantity, price.toBigDecimal())
             fetchUserPortfolio()
             fetchUserCash()
             showSnackbar("Buy executed successfully. Total value: $costText")
