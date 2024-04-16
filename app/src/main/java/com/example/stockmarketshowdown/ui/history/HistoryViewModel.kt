@@ -4,6 +4,10 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.stockmarketshowdown.database.SMS
+import com.example.stockmarketshowdown.model.TransactionHistory
+import com.google.firebase.Firebase
+import com.google.firebase.auth.auth
 
 enum class SortColumn {
     COMPANY,
@@ -15,18 +19,22 @@ enum class SortColumn {
 data class SortInfo(val sortColumn: SortColumn, val ascending: Boolean)
 class HistoryViewModel : ViewModel() {
 
-    private val history = Transactions.history
+    private val history = MutableLiveData<List<TransactionHistory>>()
+
+    private val sms = SMS()
 
     private var sortInfo = MutableLiveData<SortInfo>().apply {
         value = SortInfo(SortColumn.DATE, false)
     }
 
     fun getTransaction(position: Int): TransactionHistory {
-        return history[position]
+        return history.value!![position]
     }
 
-    fun getTransactions(): List<TransactionHistory> {
-        return history
+    suspend fun fetchTransactionHistory(resultListener: () -> Unit) {
+        val userID = Firebase.auth.currentUser?.uid
+        history.postValue(sms.getUserTransactionHistory(userID!!))
+        resultListener.invoke()
     }
 
     fun observeHistoryList(): LiveData<List<TransactionHistory>> {
@@ -49,22 +57,26 @@ class HistoryViewModel : ViewModel() {
     }
 
     private fun sortList() : List<TransactionHistory> {
-        if (sortInfo.value?.ascending == true) {
-            when (sortInfo.value?.sortColumn) {
-                SortColumn.COMPANY -> return history.sortedBy { it.TradeCompany.toString() }
-                SortColumn.TYPE -> return history.sortedBy { it.TradeType.toString() }
-                SortColumn.DATE -> return history.sortedBy { it.TradeDate }
-                SortColumn.VALUE -> return history.sortedBy { it.TradeValue }
-                null -> return history
+        if (history.value != null) {
+            if (sortInfo.value?.ascending == true) {
+                when (sortInfo.value?.sortColumn) {
+                    SortColumn.COMPANY -> return history?.value.sortedBy { it.tradeCompany }
+                    SortColumn.TYPE -> return history.value!!.sortedBy { it.tradeType }
+                    SortColumn.DATE -> return history.value!!.sortedBy { it.tradeDate }
+                    SortColumn.VALUE -> return history.value!!.sortedBy { it.tradeValue }
+                    null -> return history.value!!
+                }
+            } else {
+                when (sortInfo.value?.sortColumn) {
+                    SortColumn.COMPANY -> return history.value!!.sortedByDescending { it.tradeCompany }
+                    SortColumn.TYPE -> return history.value!!.sortedByDescending { it.tradeType }
+                    SortColumn.DATE -> return history.value!!.sortedByDescending { it.tradeDate }
+                    SortColumn.VALUE -> return history.value!!.sortedByDescending { it.tradeValue }
+                    null -> return history.value!!
+                }
             }
         } else {
-            when (sortInfo.value?.sortColumn) {
-                SortColumn.COMPANY -> return history.sortedByDescending { it.TradeCompany.toString() }
-                SortColumn.TYPE -> return history.sortedByDescending { it.TradeType.toString() }
-                SortColumn.DATE -> return history.sortedByDescending { it.TradeDate }
-                SortColumn.VALUE -> return history.sortedByDescending { it.TradeValue }
-                null -> return history
-            }
+            return List<TransactionHistory>()
         }
     }
 
@@ -72,7 +84,7 @@ class HistoryViewModel : ViewModel() {
         addSource(sortInfo) {
             value = sortList()
         }
-        value = history
+        value = history.value
     }
 
 

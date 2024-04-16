@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.stockmarketshowdown.R
 import com.example.stockmarketshowdown.databinding.LeaderboardRowBinding
+import com.example.stockmarketshowdown.model.LeaderboardEntry
 
 class LeaderboardAdapter(private val viewModel: LeaderboardViewModel)
     : ListAdapter<LeaderboardEntry, LeaderboardAdapter.VH>(Diff()){
@@ -19,15 +20,15 @@ class LeaderboardAdapter(private val viewModel: LeaderboardViewModel)
                 oldItem: LeaderboardEntry,
                 newItem: LeaderboardEntry
             ): Boolean {
-                return oldItem.id == newItem.id
+                return oldItem.scoreID == newItem.scoreID
             }
 
             override fun areContentsTheSame(
                 oldItem: LeaderboardEntry,
                 newItem: LeaderboardEntry
             ): Boolean {
-                return oldItem.id == newItem.id
-                        && oldItem.name == newItem.name
+                return oldItem.scoreID == newItem.scoreID
+                        && oldItem.displayName == newItem.displayName
                         && oldItem.score == newItem.score
                         && oldItem.tagline == newItem.tagline
             }
@@ -57,9 +58,9 @@ class LeaderboardAdapter(private val viewModel: LeaderboardViewModel)
                     holder.rowBinding.rowPosition.visibility = VISIBLE
                 }
 
-                holder.rowBinding.rowName.text = leaderboardEntry.name
-                val formatted = String.format("$%.2f", leaderboardEntry.score)
-                holder.rowBinding.rowScore.text = formatted
+                holder.rowBinding.rowName.text = leaderboardEntry.displayName
+//                val formatted = String.format("$%.2f", leaderboardEntry.score)
+                holder.rowBinding.rowScore.text = leaderboardEntry.score.toString()
                 holder.rowBinding.rowTagline.text = leaderboardEntry.tagline
                 holder.rowBinding.rowPosition.text = (position + 1).toString()
             }

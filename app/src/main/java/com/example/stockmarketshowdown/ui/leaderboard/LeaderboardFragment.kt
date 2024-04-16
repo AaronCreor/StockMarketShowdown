@@ -5,22 +5,26 @@ import android.util.Log
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.stockmarketshowdown.MainActivity
 import com.example.stockmarketshowdown.R
 import com.example.stockmarketshowdown.databinding.FragmentLeaderboardBinding
+import kotlinx.coroutines.launch
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.util.Locale
 
 class LeaderboardFragment : Fragment(R.layout.fragment_leaderboard) {
+    private var _binding: FragmentLeaderboardBinding? = null
+    private val binding get() = _binding!!
     private val viewModel: LeaderboardViewModel by activityViewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val binding = FragmentLeaderboardBinding.bind(view)
+        _binding = FragmentLeaderboardBinding.bind(view)
         Log.d(javaClass.simpleName, "onViewCreated")
         val mainActivity = (requireActivity() as MainActivity)
         val currentTime = LocalDate.now()
@@ -39,5 +43,11 @@ class LeaderboardFragment : Fragment(R.layout.fragment_leaderboard) {
             adapter.submitList(it)
         }
 
+        lifecycleScope.launch {
+            mainActivity.progressBarOn()
+            viewModel.fetchLeaderboardData {
+                mainActivity.progressBarOff()
+            }
+        }
     }
 }
