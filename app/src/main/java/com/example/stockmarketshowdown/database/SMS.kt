@@ -310,7 +310,8 @@ public class SMS {
             val name = resultSet.getString("Company")
             val quantity = resultSet.getInt("Ownership")
             val cost = resultSet.getBigDecimal("Cost")
-            assets.add(Asset(name, quantity, cost))
+            val totalValue = BigDecimal.ZERO // Initialize totalValue to zero
+            assets.add(Asset(name, quantity, cost, totalValue))
         }
 
         resultSet.close()

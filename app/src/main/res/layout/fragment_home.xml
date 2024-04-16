@@ -74,7 +74,7 @@
             android:id="@+id/text_quantity_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="100dp"
+            android:layout_marginStart="56dp"
             android:text="Quantity"
             android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -86,13 +86,23 @@
             android:id="@+id/text_value_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="68dp"
-            android:text="Value"
+            android:layout_marginStart="48dp"
+            android:text="Cost"
             android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@id/text_quantity_title"
             app:layout_constraintTop_toTopOf="@id/text_quantity_title"
             app:layout_constraintVertical_bias="0.0" />
+
+        <TextView
+            android:id="@+id/textTotalValueTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="64dp"
+            android:text="Value"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@id/text_value_title" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 

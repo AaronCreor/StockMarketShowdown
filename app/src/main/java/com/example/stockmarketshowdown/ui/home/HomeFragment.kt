@@ -20,7 +20,8 @@ import com.example.stockmarketshowdown.ui.home.HomeFragmentDirections
 enum class SortColumn {
     NAME,
     PRICE,
-    QUANTITY
+    QUANTITY,
+    TOTALVALUE
 }
 
 class HomeFragment : Fragment() {
@@ -51,10 +52,14 @@ class HomeFragment : Fragment() {
         GlobalScope.launch(Dispatchers.Main) {
             val assets = userID?.let { SMS().getUserAssets(it).toMutableList() }
             if (assets != null) {
-                portfolioAdapter.updateAssets(assets)
+                assets.forEachIndexed { index, asset ->
+                    portfolioAdapter.fetchAssetTotalValue(asset, index)
+                }
                 setupSorting()
-                val totalAssetValue = assets.sumOf { it.value }.toString()
+
                 val cash = userID.let { SMS().getUserCash(it) }
+                portfolioAdapter.updateAssets(assets)
+                val totalAssetValue = assets.sumOf { it.totalValue }.toString()
                 val totalPortfolioValue = cash?.add(totalAssetValue.toBigDecimal())
                 binding.textPortfolioValue.text = "$$totalPortfolioValue"
             }
@@ -62,6 +67,8 @@ class HomeFragment : Fragment() {
 
         return root
     }
+
+
 
     private fun setupSorting() {
         binding.textTickerTitle.setOnClickListener {
@@ -84,6 +91,14 @@ class HomeFragment : Fragment() {
                 updateSortTitleBackground(binding.textQuantityTitle, SortColumn.QUANTITY)
             }
         }
+
+        binding.textTotalValueTitle.setOnClickListener {
+            if (::portfolioAdapter.isInitialized) {
+                portfolioAdapter.sortByColumn(SortColumn.TOTALVALUE, !portfolioAdapter.isAscending())
+                updateSortTitleBackground(binding.textTotalValueTitle, SortColumn.TOTALVALUE)
+            }
+        }
+
     }
 
     private fun updateSortTitleBackground(view: View, column: SortColumn) {
@@ -91,6 +106,7 @@ class HomeFragment : Fragment() {
         binding.textTickerTitle.setBackgroundColor(Color.TRANSPARENT)
         binding.textValueTitle.setBackgroundColor(Color.TRANSPARENT)
         binding.textQuantityTitle.setBackgroundColor(Color.TRANSPARENT)
+        binding.textTotalValueTitle.setBackgroundColor(Color.TRANSPARENT)
 
         // Set the background color of the clicked title to yellow
         val backgroundColor = if (portfolioAdapter.getSortColumn() == column) {
