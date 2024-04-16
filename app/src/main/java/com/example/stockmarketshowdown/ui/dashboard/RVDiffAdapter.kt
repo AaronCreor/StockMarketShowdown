@@ -1,7 +1,3 @@
-package musicplayer.cs371m.musicplayer
-
-import Company
-import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
@@ -9,16 +5,17 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.stockmarketshowdown.MainViewModel
 import com.example.stockmarketshowdown.databinding.CompanyRowBinding
+
 class RVDiffAdapter(
     private val viewModel: MainViewModel,
-    private val onItemClick: (position: Int) -> Unit
-)
-    : ListAdapter<Company,
-        RVDiffAdapter.ViewHolder>(Diff())
-{
-    // ViewHolder pattern holds row binding
-    inner class ViewHolder(val companyRowBinding: CompanyRowBinding)
-        : RecyclerView.ViewHolder(companyRowBinding.root) {
+    private var onItemClick: (company: Company) -> Unit
+) : ListAdapter<Company, RVDiffAdapter.ViewHolder>(Diff()) {
+
+    private var companyListFull: List<Company> = ArrayList()
+
+    inner class ViewHolder(val companyRowBinding: CompanyRowBinding) :
+        RecyclerView.ViewHolder(companyRowBinding.root) {
+
         fun bind(company: Company) {
             companyRowBinding.companyDescription.text = company.description
             companyRowBinding.companyTicker.text = company.displaySymbol
@@ -26,8 +23,11 @@ class RVDiffAdapter(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val rowBinding = CompanyRowBinding.inflate(LayoutInflater.from(parent.context),
-            parent, false)
+        val rowBinding = CompanyRowBinding.inflate(
+            LayoutInflater.from(parent.context),
+            parent,
+            false
+        )
         return ViewHolder(rowBinding)
     }
 
@@ -35,23 +35,43 @@ class RVDiffAdapter(
         val company = getItem(position)
         holder.bind(company)
         holder.itemView.setOnClickListener {
-            onItemClick(position)
+            onItemClick(company) // Pass company directly
         }
+    }
+    // Function to filter the list based on search query
+    fun filter(query: String) {
+        val filteredList = mutableListOf<Company>()
+        for (company in companyListFull) {
+            if (company.description.contains(query, ignoreCase = true) ||
+                company.displaySymbol.contains(query, ignoreCase = true)
+            ) {
+                filteredList.add(company)
+            }
+        }
+        submitList(filteredList)
+    }
+
+    // Function to set the full company list
+    fun setCompanyListFull(list: List<Company>) {
+        companyListFull = list
+        submitList(list)
+    }
+
+    fun setOnItemClickListener(listener: (company: Company) -> Unit) {
+        onItemClick = listener
     }
 
 
 
 
     class Diff : DiffUtil.ItemCallback<Company>() {
-        // Item identity
         override fun areItemsTheSame(oldItem: Company, newItem: Company): Boolean {
             return oldItem.hashCode() == newItem.hashCode()
         }
-        // Item contents are the same, but the object might have changed
+
         override fun areContentsTheSame(oldItem: Company, newItem: Company): Boolean {
-            return oldItem.description == newItem.description
-                    && oldItem.figi == newItem.figi
+            return oldItem.description == newItem.description &&
+                    oldItem.figi == newItem.figi
         }
     }
 }
-

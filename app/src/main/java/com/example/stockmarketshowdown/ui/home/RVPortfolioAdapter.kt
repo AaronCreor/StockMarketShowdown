@@ -59,8 +59,7 @@ class RVPortfolioAdapter(private val context: Context, private val assetList: Mu
             nameTextView.text = asset.name
             quantityTextView.text = asset.quantity.toString()
             valueTextView.text = (asset.value * asset.quantity.toBigDecimal()).toString()
-            totalValueTextView.text = asset.totalValue.toString()
-        }
+            totalValueTextView.text = asset.totalValue.setScale(2, BigDecimal.ROUND_HALF_UP).toString()        }
     }
 
     private fun findCompanyIndexByTicker(ticker: String): Int {
