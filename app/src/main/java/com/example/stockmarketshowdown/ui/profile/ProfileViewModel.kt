@@ -32,7 +32,8 @@ class ProfileViewModel : ViewModel() {
             userProfile.value!!.email,
             biography,
             tagline,
-            userProfile.value!!.cash
+            userProfile.value!!.cash,
+            ""
         )
         sms.updateUserProfile(data)
         fetchUserProfile(resultListener)
@@ -42,15 +43,15 @@ class ProfileViewModel : ViewModel() {
         return userProfile
     }
 
-    fun getDisplayName(): String {
+    fun getDisplayName(): String? {
         return userProfile.value!!.displayName
     }
 
-    fun getTagline(): String {
+    fun getTagline(): String? {
         return userProfile.value!!.tagline
     }
 
-    fun getAbout(): String {
+    fun getAbout(): String? {
         return userProfile.value!!.biography
     }
 }

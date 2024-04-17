@@ -36,15 +36,16 @@ public class SMS {
             val policy = StrictMode.ThreadPolicy.Builder().permitAll().build()
             StrictMode.setThreadPolicy(policy)
             connection = getConnection()
-            val sql = "INSERT INTO Users (UserID, DisplayName, Email, Biography, Tagline, Cash) VALUES (?, ?, ?, ?, ?, ?)"
+            val sql = "INSERT INTO Users (UserID, DisplayName, Email, Biography, Tagline, Cash, Picture) VALUES (?, ?, ?, ?, ?, ?, ?)"
             preparedStatement = connection.prepareStatement(sql)
-            // Set parameters
             preparedStatement.setString(1, userID)
             preparedStatement.setString(2, displayName)
             preparedStatement.setString(3, email)
             preparedStatement.setString(4, biography)
             preparedStatement.setString(5, tagline)
             preparedStatement.setBigDecimal(6, cash)
+            preparedStatement.setString(7, "")
+
             // Execute SQL statement
             preparedStatement.executeUpdate()
         } catch (e: SQLException) {
@@ -354,10 +355,10 @@ public class SMS {
     suspend fun getUser(userID: String) : UserProfile = withContext(Dispatchers.IO) {
         val connection = getConnection()
         val query = """
-        SELECT UserID, DisplayName, Email, Biography, Tagline, Cash
+        SELECT UserID, DisplayName, Email, Biography, Tagline, Cash, Picture
         FROM Users
         WHERE UserID = ?
-    """.trimIndent()
+        """.trimIndent()
 
         val preparedStatement = connection.prepareStatement(query)
         preparedStatement.setString(1, userID)
@@ -372,8 +373,9 @@ public class SMS {
             val biography = resultSet.getString("Biography")
             val tagline = resultSet.getString("Tagline")
             val cash = resultSet.getDouble("Cash")
+            val picture = resultSet.getString("Picture")
             user.add(
-                UserProfile(id, name, email, biography, tagline, cash)
+                UserProfile(id, name, email, biography, tagline, cash, picture)
             )
         }
 
