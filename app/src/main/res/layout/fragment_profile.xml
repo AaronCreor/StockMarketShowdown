@@ -31,7 +31,7 @@
                         android:layout_height="150dp"
                         android:layout_gravity="center"
                         android:id="@+id/profileImage"
-                        android:src="@drawable/scott_steiner"/>
+                        android:src="@drawable/ic_profile_default"/>
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -42,7 +42,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/scott_steiner"
+                            android:text=""
                             android:id="@+id/displayName"
                             android:textAlignment="center"
                             android:textSize="20sp"
@@ -138,7 +138,7 @@
                             android:layout_marginTop="30dp"
                             android:id="@+id/netWorth"
                             android:textColor="@color/black"
-                            android:text="@string/_410_000_000"
+                            android:text=""
                             android:textSize="18sp"
                             android:textStyle="italic"
                             android:layout_alignParentStart="true"/>
@@ -178,7 +178,7 @@
                             android:layout_marginTop="30dp"
                             android:textColor="@color/black"
                             android:id="@+id/tagline"
-                            android:text="@string/i_m_not_only_a_man_i_m_a_genetic_freak"
+                            android:text=""
                             android:textSize="15sp"
                             android:textStyle="italic"
                             android:layout_alignParentStart="true"/>
@@ -231,7 +231,7 @@
                             android:layout_marginTop="30dp"
                             android:id="@+id/biography"
                             android:textColor="@color/black"
-                            android:text="Insert Scott Steiner Math Here"
+                            android:text=""
                             android:textSize="15sp"
                             android:layout_alignParentStart="true"/>
 
@@ -298,7 +298,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textColor="#6E6C6C"
-                            android:text="@string/fake_example_com"
+                            android:text=""
                             android:id="@+id/email"
                             android:textSize="15sp"
                             android:layout_alignParentEnd="true"
@@ -324,7 +324,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textColor="#6E6C6C"
-                            android:text="@string/geneticfreak"
+                            android:text=""
                             android:id="@+id/username"
                             android:textSize="15sp"
                             android:layout_alignParentEnd="true"
