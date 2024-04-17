@@ -13,11 +13,14 @@ data class Company(
     val symbol2: String,
     val type: String)
 
-class Repository{
+class Repository {
     fun loadCompaniesFromAssets(context: Context): List<Company> {
         val gson = Gson()
         val inputStream = context.assets.open("companyData.json")
         val jsonString = inputStream.bufferedReader().use { it.readText() }
-        return gson.fromJson(jsonString, Array<Company>::class.java).toList()
+        val allCompanies = gson.fromJson(jsonString, Array<Company>::class.java).toList()
+
+        // Filter out companies with "." in their displaySymbol
+        return allCompanies.filter { !it.displaySymbol.contains(".") }
     }
 }

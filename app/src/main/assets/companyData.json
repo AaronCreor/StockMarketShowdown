@@ -1,42 +1,6 @@
 [
   {
     "currency": "USD",
-    "description": "WESTERN ALLIANCE BANCORP - WAL 4 1/4 PERP",
-    "displaySymbol": "WAL.PRA",
-    "figi": "BBG012JJSW47",
-    "isin": null,
-    "mic": "XNYS",
-    "shareClassFIGI": "",
-    "symbol": "WAL.PRA",
-    "symbol2": "",
-    "type": "PUBLIC"
-  },
-  {
-    "currency": "USD",
-    "description": "GREEN BRICK PARTNERS INC - GRBK 5 3/4 PERP",
-    "displaySymbol": "GRBK.PRA",
-    "figi": "BBG0145JGQR9",
-    "isin": null,
-    "mic": "XNYS",
-    "shareClassFIGI": "",
-    "symbol": "GRBK.PRA",
-    "symbol2": "",
-    "type": "PUBLIC"
-  },
-  {
-    "currency": "USD",
-    "description": "CONCORD ACQ CL A -CW28",
-    "displaySymbol": "GCTS.WS",
-    "figi": "BBG00ZVLNZB6",
-    "isin": null,
-    "mic": "XNYS",
-    "shareClassFIGI": "",
-    "symbol": "GCTS.WS",
-    "symbol2": "",
-    "type": "Equity WRT"
-  },
-  {
-    "currency": "USD",
     "description": "OVERSEAS SHIPHOLDING GROUP-A",
     "displaySymbol": "OSG",
     "figi": "BBG0071D5R09",
@@ -289,30 +253,6 @@
   },
   {
     "currency": "USD",
-    "description": "KENSINGTON CAPITAL ACQUISITI",
-    "displaySymbol": "KCGI.U",
-    "figi": "BBG011WFD9Y6",
-    "isin": null,
-    "mic": "XNYS",
-    "shareClassFIGI": "BBG011WFDBS8",
-    "symbol": "KCGI.U",
-    "symbol2": "",
-    "type": "Unit"
-  },
-  {
-    "currency": "USD",
-    "description": "GLOBAL NET LEASE INC - GNL 7 1/4 PERP",
-    "displaySymbol": "GNL.PRA",
-    "figi": "BBG00HNJVFR8",
-    "isin": null,
-    "mic": "XNYS",
-    "shareClassFIGI": "",
-    "symbol": "GNL.PRA",
-    "symbol2": "",
-    "type": "PUBLIC"
-  },
-  {
-    "currency": "USD",
     "description": "M/I HOMES INC",
     "displaySymbol": "MHO",
     "figi": "BBG000BL9MZ4",
@@ -373,18 +313,6 @@
   },
   {
     "currency": "USD",
-    "description": "ARMADA HOFFLER PROPERTIE - AHH 6 3/4 PERP",
-    "displaySymbol": "AHH.PRA",
-    "figi": "BBG00PF3RDH5",
-    "isin": null,
-    "mic": "XNYS",
-    "shareClassFIGI": "",
-    "symbol": "AHH.PRA",
-    "symbol2": "",
-    "type": "PUBLIC"
-  },
-  {
-    "currency": "USD",
     "description": "GEO GROUP INC/THE",
     "displaySymbol": "GEO",
     "figi": "BBG000GC0TZ3",
@@ -421,18 +349,6 @@
   },
   {
     "currency": "USD",
-    "description": "ATHENE HOLDING LTD - ATH 6.35 PERP",
-    "displaySymbol": "ATH.PRA",
-    "figi": "BBG00PC7S442",
-    "isin": null,
-    "mic": "XNYS",
-    "shareClassFIGI": "",
-    "symbol": "ATH.PRA",
-    "symbol2": "",
-    "type": "PUBLIC"
-  },
-  {
-    "currency": "USD",
     "description": "REALTY INCOME CORP",
     "displaySymbol": "O",
     "figi": "BBG000DHPN63",
@@ -442,18 +358,6 @@
     "symbol": "O",
     "symbol2": "",
     "type": "REIT"
-  },
-  {
-    "currency": "USD",
-    "description": "VICARIOUS SURGICAL INC-CW27",
-    "displaySymbol": "RBOT.WS",
-    "figi": "BBG00X3HXBF9",
-    "isin": null,
-    "mic": "XNYS",
-    "shareClassFIGI": "",
-    "symbol": "RBOT.WS",
-    "symbol2": "",
-    "type": "Equity WRT"
   },
   {
     "currency": "USD",
@@ -478,18 +382,6 @@
     "symbol": "BBW",
     "symbol2": "",
     "type": "Common Stock"
-  },
-  {
-    "currency": "USD",
-    "description": "ARCHER AVIATION INC    -CW26",
-    "displaySymbol": "ACHR.WS",
-    "figi": "BBG00YGCV1N9",
-    "isin": null,
-    "mic": "XNYS",
-    "shareClassFIGI": "",
-    "symbol": "ACHR.WS",
-    "symbol2": "",
-    "type": "Equity WRT"
   },
   {
     "currency": "USD",
@@ -538,18 +430,6 @@
     "symbol": "FTI",
     "symbol2": "",
     "type": "Common Stock"
-  },
-  {
-    "currency": "USD",
-    "description": "ARES ACQUISITION CORP II-28",
-    "displaySymbol": "AACT.WS",
-    "figi": "BBG01GWQNV79",
-    "isin": null,
-    "mic": "XNYS",
-    "shareClassFIGI": "",
-    "symbol": "AACT.WS",
-    "symbol2": "",
-    "type": "Equity WRT"
   },
   {
     "currency": "USD",
@@ -637,18 +517,6 @@
   },
   {
     "currency": "USD",
-    "description": "MODIV INDUSTRIAL INC - MODINC 7 3/8 PERP",
-    "displaySymbol": "MDV.PRA",
-    "figi": "BBG012JJT7K3",
-    "isin": null,
-    "mic": "XNYS",
-    "shareClassFIGI": "",
-    "symbol": "MDV.PRA",
-    "symbol2": "",
-    "type": "PUBLIC"
-  },
-  {
-    "currency": "USD",
     "description": "INFOSYS LTD-SP ADR",
     "displaySymbol": "INFY",
     "figi": "BBG000BSGQL7",
@@ -670,30 +538,6 @@
     "symbol": "BHE",
     "symbol2": "",
     "type": "Common Stock"
-  },
-  {
-    "currency": "USD",
-    "description": "Black Mountain Acquisition Corp",
-    "displaySymbol": "BMAC.U",
-    "figi": "",
-    "isin": null,
-    "mic": "XNYS",
-    "shareClassFIGI": "",
-    "symbol": "BMAC.U",
-    "symbol2": "",
-    "type": ""
-  },
-  {
-    "currency": "USD",
-    "description": "CONCORD ACQUISITION A -CW28",
-    "displaySymbol": "CNDA.WS",
-    "figi": "BBG00ZYWTVP7",
-    "isin": null,
-    "mic": "XNYS",
-    "shareClassFIGI": "",
-    "symbol": "CNDA.WS",
-    "symbol2": "",
-    "type": "Equity WRT"
   },
   {
     "currency": "USD",
@@ -733,18 +577,6 @@
   },
   {
     "currency": "USD",
-    "description": "KIMCO REALTY CORP - KIM 5 1/8 PERP",
-    "displaySymbol": "KIM.PRL",
-    "figi": "BBG00HDDCWJ5",
-    "isin": null,
-    "mic": "XNYS",
-    "shareClassFIGI": "",
-    "symbol": "KIM.PRL",
-    "symbol2": "",
-    "type": "PUBLIC"
-  },
-  {
-    "currency": "USD",
     "description": "BLACK STONE MINERALS LP",
     "displaySymbol": "BSM",
     "figi": "BBG008B5CF29",
@@ -754,18 +586,6 @@
     "symbol": "BSM",
     "symbol2": "",
     "type": "MLP"
-  },
-  {
-    "currency": "USD",
-    "description": "ION ACQ CL A -CW27",
-    "displaySymbol": "CTV.WS",
-    "figi": "BBG00Z2YDG50",
-    "isin": null,
-    "mic": "XNYS",
-    "shareClassFIGI": "",
-    "symbol": "CTV.WS",
-    "symbol2": "",
-    "type": "Equity WRT"
   },
   {
     "currency": "USD",
@@ -805,30 +625,6 @@
   },
   {
     "currency": "USD",
-    "description": "BANK OF AMERICA CORP - BAC 7 1/4 PERP",
-    "displaySymbol": "BAC.PRL",
-    "figi": "BBG000004TB8",
-    "isin": null,
-    "mic": "XNYS",
-    "shareClassFIGI": "",
-    "symbol": "BAC.PRL",
-    "symbol2": "",
-    "type": "PUBLIC"
-  },
-  {
-    "currency": "USD",
-    "description": "ASPEN INSURANCE HLDG LTD - AHL 5 5/8 PERP",
-    "displaySymbol": "AHL.PRE",
-    "figi": "BBG00PXGMSB4",
-    "isin": null,
-    "mic": "XNYS",
-    "shareClassFIGI": "",
-    "symbol": "AHL.PRE",
-    "symbol2": "",
-    "type": "PUBLIC"
-  },
-  {
-    "currency": "USD",
     "description": "EVERI HOLDINGS INC",
     "displaySymbol": "EVRI",
     "figi": "BBG000H1B407",
@@ -853,18 +649,6 @@
   },
   {
     "currency": "USD",
-    "description": "WELLS FARGO & COMPANY - WFC 4 3/8 PERP",
-    "displaySymbol": "WFC.PRC",
-    "figi": "BBG00Z19HY08",
-    "isin": null,
-    "mic": "XNYS",
-    "shareClassFIGI": "",
-    "symbol": "WFC.PRC",
-    "symbol2": "",
-    "type": "PUBLIC"
-  },
-  {
-    "currency": "USD",
     "description": "SIXTH STREET SPECIALTY LENDI",
     "displaySymbol": "TSLX",
     "figi": "BBG001DFW799",
@@ -874,18 +658,6 @@
     "symbol": "TSLX",
     "symbol2": "",
     "type": "Common Stock"
-  },
-  {
-    "currency": "USD",
-    "description": "KIMCO REALTY CORP - KIM 7 1/4 PERP",
-    "displaySymbol": "KIM.PRN",
-    "figi": "BBG01KTVSSZ4",
-    "isin": null,
-    "mic": "XNYS",
-    "shareClassFIGI": "",
-    "symbol": "KIM.PRN",
-    "symbol2": "",
-    "type": "PUBLIC"
   },
   {
     "currency": "USD",
@@ -910,18 +682,6 @@
     "symbol": "PATH",
     "symbol2": "",
     "type": "Common Stock"
-  },
-  {
-    "currency": "USD",
-    "description": "JPMORGAN CHASE & CO - JPM 4.2 PERP",
-    "displaySymbol": "JPM.PRM",
-    "figi": "BBG011XMPST1",
-    "isin": null,
-    "mic": "XNYS",
-    "shareClassFIGI": "",
-    "symbol": "JPM.PRM",
-    "symbol2": "",
-    "type": "PUBLIC"
   },
   {
     "currency": "USD",

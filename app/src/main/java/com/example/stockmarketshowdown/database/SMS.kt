@@ -88,7 +88,7 @@ public class SMS {
             if(!SMS().checkUser(user.uid)) {
                 SMS().insertUser(
                     user.uid,
-                    user.displayName,
+                    "",
                     user.email,
                     "",
                     "",

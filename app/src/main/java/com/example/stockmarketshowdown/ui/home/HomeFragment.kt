@@ -40,7 +40,7 @@ class HomeFragment : Fragment() {
     ): View {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         val root: View = binding.root
-
+        binding.imageTrendIcon.visibility = View.INVISIBLE
         val userID = FirebaseAuth.getInstance().currentUser?.uid
         portfolioAdapter = RVPortfolioAdapter(requireContext(), mutableListOf()) { index ->
             val action = HomeFragmentDirections.actionNavigationHomeToCompanyPageFragment(index)
@@ -82,15 +82,19 @@ class HomeFragment : Fragment() {
 
             if (currentScore == null) {
                 SMS().setScore(it, newScore)
-                binding.imageTrendIcon.setImageResource(R.drawable.ic_up_triangle)
-                binding.textPortfolioValue.setTextColor(Color.GREEN) // Set text color to green
+                // No need to set trend indicator or text color here
             } else if (newScore > currentScore) {
                 SMS().updateScore(it, newScore)
+                binding.imageTrendIcon.visibility = View.VISIBLE
                 binding.imageTrendIcon.setImageResource(R.drawable.ic_up_triangle)
                 binding.textPortfolioValue.setTextColor(Color.GREEN) // Set text color to green
             } else if (newScore < currentScore) {
+                SMS().updateScore(it, newScore)
+                binding.imageTrendIcon.visibility = View.VISIBLE
                 binding.imageTrendIcon.setImageResource(R.drawable.ic_down_triangle)
                 binding.textPortfolioValue.setTextColor(Color.RED) // Set text color to red
+            } else {
+                binding.imageTrendIcon.visibility = View.INVISIBLE
             }
         }
     }
