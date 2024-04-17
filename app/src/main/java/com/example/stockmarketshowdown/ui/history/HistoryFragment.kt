@@ -39,26 +39,38 @@ class HistoryFragment : Fragment(R.layout.fragment_history) {
         Log.d(javaClass.simpleName, "submitList")
 
         binding.headerCompany.setOnClickListener {
-            viewModel.sortInfoClick(SortColumn.COMPANY) {
-
+            mainActivity.progressBarOn()
+            lifecycleScope.launch {
+                viewModel.sortInfoClick(SortColumn.COMPANY) {
+                    mainActivity.progressBarOff()
+                }
             }
         }
 
         binding.headerDate.setOnClickListener {
-            viewModel.sortInfoClick(SortColumn.DATE) {
-
+            mainActivity.progressBarOn()
+            lifecycleScope.launch {
+                viewModel.sortInfoClick(SortColumn.DATE) {
+                    mainActivity.progressBarOff()
+                }
             }
         }
 
         binding.headerType.setOnClickListener {
-            viewModel.sortInfoClick(SortColumn.TYPE) {
-
+            mainActivity.progressBarOn()
+            lifecycleScope.launch {
+                viewModel.sortInfoClick(SortColumn.TYPE) {
+                    mainActivity.progressBarOff()
+                }
             }
         }
 
         binding.headerValue.setOnClickListener {
-            viewModel.sortInfoClick(SortColumn.VALUE) {
-
+            mainActivity.progressBarOn()
+            lifecycleScope.launch {
+                viewModel.sortInfoClick(SortColumn.VALUE) {
+                    mainActivity.progressBarOff()
+                }
             }
         }
 
@@ -102,7 +114,7 @@ class HistoryFragment : Fragment(R.layout.fragment_history) {
             }
         }
 
-        viewModel.observeHistoryList().observe(viewLifecycleOwner) {
+        viewModel.observeHistory().observe(viewLifecycleOwner) {
             adapter.submitList(it)
         }
 

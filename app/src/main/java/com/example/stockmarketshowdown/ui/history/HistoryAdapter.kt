@@ -1,10 +1,12 @@
 package com.example.stockmarketshowdown.ui.history
 
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.example.stockmarketshowdown.R
 import com.example.stockmarketshowdown.databinding.HistoryRowBinding
 import com.example.stockmarketshowdown.model.TransactionHistory
 import java.text.SimpleDateFormat
@@ -34,6 +36,13 @@ class HistoryAdapter(private val viewModel: HistoryViewModel) :
             val transaction = viewModel.getTransaction(position)
             holder.rowBinding.rowCompany.text = transaction.tradeCompany
             holder.rowBinding.rowType.text = transaction.tradeType
+            if (transaction.tradeType == "BUY") {
+                holder.rowBinding.rowType.setTextColor(Color.parseColor("#CC0000"))
+                holder.rowBinding.rowImage.setImageResource(R.drawable.ic_paid_icon_red)
+            } else {
+                holder.rowBinding.rowType.setTextColor(Color.parseColor("#99CC00"))
+                holder.rowBinding.rowImage.setImageResource(R.drawable.ic_paid_icon_green)
+            }
             holder.rowBinding.rowValue.text = "$"+transaction.tradeValue.toString()
             var outputFormat = SimpleDateFormat("dd MMMM yyyy", Locale.ENGLISH)
             val formattedDate = outputFormat.format(transaction.tradeDate)

@@ -6,6 +6,8 @@ import com.example.stockmarketshowdown.model.LeaderboardEntry
 import com.example.stockmarketshowdown.model.PortfolioEntry
 import com.example.stockmarketshowdown.model.TransactionHistory
 import com.example.stockmarketshowdown.model.UserProfile
+import com.example.stockmarketshowdown.ui.history.SortColumn
+import com.example.stockmarketshowdown.ui.history.SortInfo
 import com.example.stockmarketshowdown.ui.home.Asset
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.Dispatchers
@@ -399,12 +401,29 @@ public class SMS {
         }
     }
 
-    suspend fun getUserTransactionHistory(userID: String) : List<TransactionHistory> = withContext(Dispatchers.IO) {
+    suspend fun getUserTransactionHistory(userID: String, sortInfo: SortInfo) : List<TransactionHistory> = withContext(Dispatchers.IO) {
         val connection = getConnection()
+        var orderByColumn = "TradeCompany"
+        if (sortInfo.sortColumn == SortColumn.COMPANY) {
+            orderByColumn = "TradeCompany"
+        } else if (sortInfo.sortColumn == SortColumn.VALUE) {
+            orderByColumn = "TradeValue"
+        } else if (sortInfo.sortColumn == SortColumn.TYPE) {
+            orderByColumn = "TradeType"
+        } else {
+            orderByColumn = "TradeDate"
+        }
+        var sortOrder = "ASC"
+        if (sortInfo.ascending) {
+            sortOrder = "ASC"
+        } else {
+            sortOrder = "DESC"
+        }
         val query = """
         SELECT UserID, TransactionID, TradeType, TradeValue, TradeDate, TradeCompany
         FROM TransactionHistory
         WHERE UserID = ?
+        ORDER BY $orderByColumn $sortOrder
     """.trimIndent()
 
         val preparedStatement = connection.prepareStatement(query)
@@ -419,7 +438,7 @@ public class SMS {
             val type = resultSet.getString("TradeType")
             val value = resultSet.getDouble("TradeValue")
             val date = resultSet.getDate("TradeDate")
-            val company = resultSet.getString("Company")
+            val company = resultSet.getString("TradeCompany")
             history.add(
                 TransactionHistory(userID, tranID, type, value, date, company)
             )

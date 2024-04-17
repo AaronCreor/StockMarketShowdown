@@ -1,7 +1,7 @@
 package com.example.stockmarketshowdown.ui.history
 
+import android.util.Log
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.stockmarketshowdown.database.SMS
@@ -33,59 +33,29 @@ class HistoryViewModel : ViewModel() {
 
     suspend fun fetchTransactionHistory(resultListener: () -> Unit) {
         val userID = Firebase.auth.currentUser?.uid
-        history.postValue(sms.getUserTransactionHistory(userID!!))
+        Log.d("FETCH", sortInfo.value!!.toString())
+        history.postValue(sms.getUserTransactionHistory(userID!!, sortInfo.value!!))
         resultListener.invoke()
     }
 
-    fun observeHistoryList(): LiveData<List<TransactionHistory>> {
-        return historyList
+    fun observeHistory(): LiveData<List<TransactionHistory>> {
+        return history
     }
 
     fun observeSortInfo(): LiveData<SortInfo> {
         return sortInfo
     }
 
-    fun sortInfoClick(sortColumn: SortColumn, resultListener: () -> Unit) {
+    suspend fun sortInfoClick(sortColumn: SortColumn, resultListener: () -> Unit) {
+        Log.d("sortInfo", sortColumn.toString())
         if (sortInfo.value != null) {
             if (sortInfo.value!!.sortColumn == sortColumn) {
                 // flip it
-                sortInfo.postValue(SortInfo(sortColumn, !sortInfo.value!!.ascending))
+                sortInfo.value = SortInfo(sortColumn, !sortInfo.value!!.ascending)
             } else {
-                sortInfo.postValue(SortInfo(sortColumn, sortInfo.value!!.ascending))
+                sortInfo.value = SortInfo(sortColumn, sortInfo.value!!.ascending)
             }
         }
+        fetchTransactionHistory(resultListener)
     }
-
-    private fun sortList() : List<TransactionHistory> {
-        if (history.value != null) {
-            if (sortInfo.value?.ascending == true) {
-                when (sortInfo.value?.sortColumn) {
-                    SortColumn.COMPANY -> return history?.value.sortedBy { it.tradeCompany }
-                    SortColumn.TYPE -> return history.value!!.sortedBy { it.tradeType }
-                    SortColumn.DATE -> return history.value!!.sortedBy { it.tradeDate }
-                    SortColumn.VALUE -> return history.value!!.sortedBy { it.tradeValue }
-                    null -> return history.value!!
-                }
-            } else {
-                when (sortInfo.value?.sortColumn) {
-                    SortColumn.COMPANY -> return history.value!!.sortedByDescending { it.tradeCompany }
-                    SortColumn.TYPE -> return history.value!!.sortedByDescending { it.tradeType }
-                    SortColumn.DATE -> return history.value!!.sortedByDescending { it.tradeDate }
-                    SortColumn.VALUE -> return history.value!!.sortedByDescending { it.tradeValue }
-                    null -> return history.value!!
-                }
-            }
-        } else {
-            return List<TransactionHistory>()
-        }
-    }
-
-    private var historyList = MediatorLiveData<List<TransactionHistory>>().apply {
-        addSource(sortInfo) {
-            value = sortList()
-        }
-        value = history.value
-    }
-
-
 }
