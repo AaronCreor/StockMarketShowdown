@@ -15,7 +15,9 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import androidx.navigation.fragment.findNavController
+import com.example.stockmarketshowdown.R
 import com.example.stockmarketshowdown.ui.home.HomeFragmentDirections
+import java.math.BigDecimal
 
 enum class SortColumn {
     NAME,
@@ -62,10 +64,35 @@ class HomeFragment : Fragment() {
                 val totalAssetValue = assets.sumOf { it.totalValue }.toString()
                 val totalPortfolioValue = cash?.add(totalAssetValue.toBigDecimal())
                 binding.textPortfolioValue.text = "$$totalPortfolioValue"
+
+                if (totalPortfolioValue != null) {
+
+                    updateScore(userID, totalPortfolioValue)
+                }
             }
         }
 
         return root
+    }
+
+    private suspend fun updateScore(userID: String?, totalPortfolioValue: BigDecimal) {
+        userID?.let {
+            val currentScore = SMS().getScore(it)
+            val newScore = totalPortfolioValue.toInt()
+
+            if (currentScore == null) {
+                SMS().setScore(it, newScore)
+                binding.imageTrendIcon.setImageResource(R.drawable.ic_up_triangle)
+                binding.textPortfolioValue.setTextColor(Color.GREEN) // Set text color to green
+            } else if (newScore > currentScore) {
+                SMS().updateScore(it, newScore)
+                binding.imageTrendIcon.setImageResource(R.drawable.ic_up_triangle)
+                binding.textPortfolioValue.setTextColor(Color.GREEN) // Set text color to green
+            } else if (newScore < currentScore) {
+                binding.imageTrendIcon.setImageResource(R.drawable.ic_down_triangle)
+                binding.textPortfolioValue.setTextColor(Color.RED) // Set text color to red
+            }
+        }
     }
 
 
