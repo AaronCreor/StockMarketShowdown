@@ -2,6 +2,12 @@ package com.example.stockmarketshowdown.database
 
 import android.os.StrictMode
 import android.util.Log
+import com.example.stockmarketshowdown.model.LeaderboardEntry
+import com.example.stockmarketshowdown.model.PortfolioEntry
+import com.example.stockmarketshowdown.model.TransactionHistory
+import com.example.stockmarketshowdown.model.UserProfile
+import com.example.stockmarketshowdown.ui.history.SortColumn
+import com.example.stockmarketshowdown.ui.history.SortInfo
 import com.example.stockmarketshowdown.ui.home.Asset
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.Dispatchers
@@ -12,20 +18,12 @@ import java.sql.DriverManager
 import java.sql.PreparedStatement
 import java.sql.ResultSet
 import java.sql.SQLException
-import java.util.Date
 
 private const val JDBC_URL = "jdbc:mysql://stockmarketshowdown.cz2uyc2wg0ss.us-east-2.rds.amazonaws.com:3306/SMS"
 private const val USER = "SMS"
 private const val PASSWORD = "gr3atViolet66"
 private const val JDBC_DRIVER = "com.mysql.cj.jdbc.Driver"
 public class SMS {
-
-    data class PortfolioEntry(
-        val company: String,
-        val totalOwnership: Int,
-        val averagePrice: BigDecimal
-    )
-
     // Method to establish a database connection
     fun getConnection(): Connection {
         return DriverManager.getConnection(JDBC_URL, USER, PASSWORD)
@@ -316,6 +314,141 @@ public class SMS {
         connection.close()
 
         assets
+    }
+
+    suspend fun getTop10Scores(): List<LeaderboardEntry> = withContext(Dispatchers.IO) {
+        val connection = getConnection()
+        val query = """
+        SELECT Score.ScoreID, Score.Score, Users.DisplayName, Users.Tagline
+        FROM Score
+        INNER JOIN Users ON Score.UserID = Users.UserID
+        ORDER BY Score.Score DESC
+        LIMIT 10
+    """.trimIndent()
+
+        val preparedStatement = connection.prepareStatement(query)
+        val resultSet = preparedStatement.executeQuery()
+
+
+        val leaderboardEntries = mutableListOf<LeaderboardEntry>()
+        while (resultSet.next()) {
+            val id = resultSet.getInt("Score.ScoreID")
+            val name = resultSet.getString("Users.DisplayName")
+            val score = resultSet.getInt("Score.Score")
+            val tagline = resultSet.getString("Users.Tagline")
+            leaderboardEntries.add(
+                LeaderboardEntry(id, score, name, tagline)
+            )
+        }
+
+        resultSet.close()
+        preparedStatement.close()
+        connection.close()
+
+        leaderboardEntries
+    }
+
+    suspend fun getUser(userID: String) : UserProfile = withContext(Dispatchers.IO) {
+        val connection = getConnection()
+        val query = """
+        SELECT UserID, DisplayName, Email, Biography, Tagline, Cash
+        FROM Users
+        WHERE UserID = ?
+    """.trimIndent()
+
+        val preparedStatement = connection.prepareStatement(query)
+        preparedStatement.setString(1, userID)
+        val resultSet = preparedStatement.executeQuery()
+
+
+        val user = mutableListOf<UserProfile>()
+        while (resultSet.next()) {
+            val id = resultSet.getString("UserID")
+            val name = resultSet.getString("DisplayName")
+            val email = resultSet.getString("Email")
+            val biography = resultSet.getString("Biography")
+            val tagline = resultSet.getString("Tagline")
+            val cash = resultSet.getDouble("Cash")
+            user.add(
+                UserProfile(id, name, email, biography, tagline, cash)
+            )
+        }
+
+        resultSet.close()
+        preparedStatement.close()
+        connection.close()
+
+        user[0]
+    }
+
+    suspend fun updateUserProfile(userProfile: UserProfile) = withContext(Dispatchers.IO) {
+        var connection: Connection? = null
+        var preparedStatement: PreparedStatement? = null
+        try {
+            connection = getConnection()
+            val sql = "UPDATE Users SET DisplayName = ?, Biography = ?, Tagline = ? WHERE UserID = ?"
+            preparedStatement = connection.prepareStatement(sql)
+            preparedStatement.setString(1, userProfile.displayName)
+            preparedStatement.setString(2, userProfile.biography)
+            preparedStatement.setString(3, userProfile.tagline)
+            preparedStatement.setString(4, userProfile.userID)
+            preparedStatement.executeUpdate()
+        } catch (e: SQLException) {
+            e.printStackTrace()
+        } finally {
+            preparedStatement?.close()
+            connection?.close()
+        }
+    }
+
+    suspend fun getUserTransactionHistory(userID: String, sortInfo: SortInfo) : List<TransactionHistory> = withContext(Dispatchers.IO) {
+        val connection = getConnection()
+        var orderByColumn = "TradeCompany"
+        if (sortInfo.sortColumn == SortColumn.COMPANY) {
+            orderByColumn = "TradeCompany"
+        } else if (sortInfo.sortColumn == SortColumn.VALUE) {
+            orderByColumn = "TradeValue"
+        } else if (sortInfo.sortColumn == SortColumn.TYPE) {
+            orderByColumn = "TradeType"
+        } else {
+            orderByColumn = "TradeDate"
+        }
+        var sortOrder = "ASC"
+        if (sortInfo.ascending) {
+            sortOrder = "ASC"
+        } else {
+            sortOrder = "DESC"
+        }
+        val query = """
+        SELECT UserID, TransactionID, TradeType, TradeValue, TradeDate, TradeCompany
+        FROM TransactionHistory
+        WHERE UserID = ?
+        ORDER BY $orderByColumn $sortOrder
+    """.trimIndent()
+
+        val preparedStatement = connection.prepareStatement(query)
+        preparedStatement.setString(1, userID)
+        val resultSet = preparedStatement.executeQuery()
+
+
+        val history = mutableListOf<TransactionHistory>()
+        while (resultSet.next()) {
+            val userID = resultSet.getString("UserID")
+            val tranID = resultSet.getString("TransactionID")
+            val type = resultSet.getString("TradeType")
+            val value = resultSet.getDouble("TradeValue")
+            val date = resultSet.getDate("TradeDate")
+            val company = resultSet.getString("TradeCompany")
+            history.add(
+                TransactionHistory(userID, tranID, type, value, date, company)
+            )
+        }
+
+        resultSet.close()
+        preparedStatement.close()
+        connection.close()
+
+        history
     }
 
 }

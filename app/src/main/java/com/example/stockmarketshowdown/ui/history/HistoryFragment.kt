@@ -6,10 +6,13 @@ import android.util.Log
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.stockmarketshowdown.MainActivity
 import com.example.stockmarketshowdown.R
 import com.example.stockmarketshowdown.databinding.FragmentHistoryBinding
+import kotlinx.coroutines.launch
 
 class HistoryFragment : Fragment(R.layout.fragment_history) {
     private var _binding: FragmentHistoryBinding? = null
@@ -25,36 +28,49 @@ class HistoryFragment : Fragment(R.layout.fragment_history) {
         Log.d(javaClass.simpleName, "onViewCreated")
 
         val adapter = HistoryAdapter(viewModel)
+        val mainActivity = (requireActivity() as MainActivity)
 
         val rv = binding.recyclerView
         val itemDecor = DividerItemDecoration(rv.context, LinearLayoutManager.VERTICAL)
         rv.addItemDecoration(itemDecor)
         rv.adapter = adapter
         rv.layoutManager = LinearLayoutManager(rv.context)
-        adapter.submitList(viewModel.getTransactions())
+
         Log.d(javaClass.simpleName, "submitList")
 
         binding.headerCompany.setOnClickListener {
-            viewModel.sortInfoClick(SortColumn.COMPANY) {
-
+            mainActivity.progressBarOn()
+            lifecycleScope.launch {
+                viewModel.sortInfoClick(SortColumn.COMPANY) {
+                    mainActivity.progressBarOff()
+                }
             }
         }
 
         binding.headerDate.setOnClickListener {
-            viewModel.sortInfoClick(SortColumn.DATE) {
-
+            mainActivity.progressBarOn()
+            lifecycleScope.launch {
+                viewModel.sortInfoClick(SortColumn.DATE) {
+                    mainActivity.progressBarOff()
+                }
             }
         }
 
         binding.headerType.setOnClickListener {
-            viewModel.sortInfoClick(SortColumn.TYPE) {
-
+            mainActivity.progressBarOn()
+            lifecycleScope.launch {
+                viewModel.sortInfoClick(SortColumn.TYPE) {
+                    mainActivity.progressBarOff()
+                }
             }
         }
 
         binding.headerValue.setOnClickListener {
-            viewModel.sortInfoClick(SortColumn.VALUE) {
-
+            mainActivity.progressBarOn()
+            lifecycleScope.launch {
+                viewModel.sortInfoClick(SortColumn.VALUE) {
+                    mainActivity.progressBarOff()
+                }
             }
         }
 
@@ -98,11 +114,16 @@ class HistoryFragment : Fragment(R.layout.fragment_history) {
             }
         }
 
-        viewModel.observeHistoryList().observe(viewLifecycleOwner) {
+        viewModel.observeHistory().observe(viewLifecycleOwner) {
             adapter.submitList(it)
         }
 
-
+        lifecycleScope.launch {
+            mainActivity.progressBarOn()
+            viewModel.fetchTransactionHistory {
+                mainActivity.progressBarOff()
+            }
+        }
     }
 
 

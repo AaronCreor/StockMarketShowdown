@@ -1,80 +1,78 @@
 package com.example.stockmarketshowdown.ui.leaderboard
 
-import android.text.SpannableString
-
 data class LeaderboardEntry (
     var id: String,
-    var name: SpannableString,
-    var score: Double,
-    var tagline: SpannableString,
+    var name: String,
+    var score: Int,
+    var tagline: String,
 )
 object LeaderboardData {
     val leaderboard = listOf(
         LeaderboardEntry(
             "1",
-            SpannableString("Michael Scott"),
-            10000.00,
-            SpannableString("Insert quote here")
+            "Michael Scott",
+            10000,
+            "Insert quote here"
         ),
         LeaderboardEntry(
             "2",
-            SpannableString("Scott Steiner"),
-            9999.00,
-            SpannableString("Insert quote here")
+            "Scott Steiner",
+            9999,
+            "Insert quote here"
         ),
         LeaderboardEntry(
             "3",
-            SpannableString("King Kong"),
-            9998.00,
-            SpannableString("Insert quote here")
+            "King Kong",
+            9998,
+            "Insert quote here"
         ),
         LeaderboardEntry(
             "4",
-            SpannableString("John Halo"),
-            9997.00,
-            SpannableString("Insert quote here")
+            "John Halo",
+            9997,
+            "Insert quote here"
         ),
         LeaderboardEntry(
             "5",
-            SpannableString("Michael Jackson"),
-            9996.00,
-            SpannableString("Insert quote here")
+            "Michael Jackson",
+            9996,
+            "Insert quote here"
         ),
         LeaderboardEntry(
             "6",
-            SpannableString("Scrooge McDuck"),
-            9995.00,
-            SpannableString("Insert quote here")
+            "Scrooge McDuck",
+            9995,
+            "Insert quote here"
         ),
         LeaderboardEntry(
             "7",
-            SpannableString("C.J."),
-            9994.00,
-            SpannableString("Insert quote here")
+            "C.J.",
+            9994,
+            "Insert quote here"
         ),
         LeaderboardEntry(
             "8",
-            SpannableString("Kiryu Kazama"),
-            9993.00,
-            SpannableString("Insert quote here")
+            "Kiryu Kazama",
+            9993,
+            "Insert quote here"
         ),
         LeaderboardEntry(
             "9",
-            SpannableString("David Martinez"),
-            9992.00,
-            SpannableString("Insert quote here")
+            "David Martinez",
+            9992,
+            "Insert quote here"
         ),
         LeaderboardEntry(
             "10",
-            SpannableString("Biden Blast"),
-            9991.00,
-            SpannableString("Insert quote here")
+            "Biden Blast",
+            9991,
+            "Insert quote here"
         ),
         LeaderboardEntry(
             "11",
-            SpannableString("Jerma"),
-            9990.00,
-            SpannableString("Insert quote here")
+            "Jerma",
+            9990,
+            "Insert quote here"
         ),
     )
 }
