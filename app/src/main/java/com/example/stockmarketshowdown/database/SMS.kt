@@ -21,7 +21,7 @@ import java.sql.SQLException
 
 private const val JDBC_URL = "jdbc:mysql://stockmarketshowdown.cz2uyc2wg0ss.us-east-2.rds.amazonaws.com:3306/SMS"
 private const val USER = "SMS"
-private const val PASSWORD = "gr3atViolet66"
+private const val PASSWORD = "gr3atViolet66" //Plain text :)
 private const val JDBC_DRIVER = "com.mysql.cj.jdbc.Driver"
 public class SMS {
     // Method to establish a database connection
