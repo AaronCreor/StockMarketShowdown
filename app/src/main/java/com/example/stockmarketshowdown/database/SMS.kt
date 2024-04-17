@@ -185,13 +185,15 @@ public class SMS {
                 // Row exists, update the existing row
                 val existingOwnership = resultSet.getInt("Ownership")
                 val existingCost = resultSet.getBigDecimal("Cost")
-                val newOwnership = existingOwnership + ownership
-                val newCost = if (existingOwnership == 0) cost else ((existingCost * existingOwnership.toBigDecimal()) + (cost * ownership.toBigDecimal())) / newOwnership.toBigDecimal()
+
+                val totalOwnership = existingOwnership + ownership
+                val totalCost = existingCost * BigDecimal(existingOwnership) + cost * BigDecimal(ownership)
+                val newAverageCostPerShare = if (totalOwnership != 0) totalCost / BigDecimal(totalOwnership) else BigDecimal.ZERO
 
                 val updateQuery = "UPDATE Portfolio SET Ownership = ?, Cost = ? WHERE UserID = ? AND Company = ?"
                 val updateStatement = connection.prepareStatement(updateQuery)
-                updateStatement.setInt(1, newOwnership)
-                updateStatement.setBigDecimal(2, newCost)
+                updateStatement.setInt(1, totalOwnership)
+                updateStatement.setBigDecimal(2, newAverageCostPerShare)
                 updateStatement.setString(3, userID)
                 updateStatement.setString(4, company)
                 updateStatement.executeUpdate()
@@ -306,7 +308,8 @@ public class SMS {
             val name = resultSet.getString("Company")
             val quantity = resultSet.getInt("Ownership")
             val cost = resultSet.getBigDecimal("Cost")
-            assets.add(Asset(name, quantity, cost))
+            val totalValue = BigDecimal.ZERO // Initialize totalValue to zero
+            assets.add(Asset(name, quantity, cost, totalValue))
         }
 
         resultSet.close()

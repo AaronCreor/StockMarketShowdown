@@ -5,7 +5,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="?attr/selectableItemBackground">
 
-    <!-- Asset Name TextView -->
     <TextView
         android:id="@+id/text_asset_name"
         android:layout_width="0dp"
@@ -20,7 +19,6 @@
         app:layout_constraintEnd_toStartOf="@id/text_asset_quantity"
         android:layout_gravity="center_vertical"/>
 
-    <!-- Asset Quantity TextView -->
     <TextView
         android:id="@+id/text_asset_quantity"
         android:layout_width="0dp"
@@ -31,7 +29,6 @@
         app:layout_constraintEnd_toStartOf="@id/text_asset_value"
         android:layout_gravity="center_vertical"/>
 
-    <!-- Asset Value TextView -->
     <TextView
         android:id="@+id/text_asset_value"
         android:layout_width="0dp"
@@ -39,6 +36,16 @@
         android:textSize="14sp"
         app:layout_constraintStart_toEndOf="@id/text_asset_quantity"
         app:layout_constraintTop_toTopOf="@id/text_asset_quantity"
+        app:layout_constraintEnd_toStartOf="@id/text_asset_total_val"
+        android:layout_gravity="center_vertical"/>
+
+    <TextView
+        android:id="@+id/text_asset_total_val"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:textSize="14sp"
+        app:layout_constraintStart_toEndOf="@id/text_asset_value"
+        app:layout_constraintTop_toTopOf="@id/text_asset_value"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_gravity="center_vertical"/>
 

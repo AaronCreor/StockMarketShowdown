@@ -36,6 +36,10 @@ class MainViewModel : ViewModel() {
         return _companyList[index]
     }
 
+    fun getCurrentCompanyInfoByTicker(ticker: String): Int {
+        return _companyList.indexOfFirst { it.displaySymbol == ticker }
+    }
+
     fun updateUser() {
         val user = Firebase.auth.currentUser
     }

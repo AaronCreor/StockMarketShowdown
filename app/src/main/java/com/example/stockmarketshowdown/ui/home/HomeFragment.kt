@@ -20,7 +20,8 @@ import com.example.stockmarketshowdown.ui.home.HomeFragmentDirections
 enum class SortColumn {
     NAME,
     PRICE,
-    QUANTITY
+    QUANTITY,
+    TOTALVALUE
 }
 
 class HomeFragment : Fragment() {
@@ -39,7 +40,7 @@ class HomeFragment : Fragment() {
         val root: View = binding.root
 
         val userID = FirebaseAuth.getInstance().currentUser?.uid
-        val portfolioAdapter = RVPortfolioAdapter(requireContext(), mutableListOf()) { index ->
+        portfolioAdapter = RVPortfolioAdapter(requireContext(), mutableListOf()) { index ->
             val action = HomeFragmentDirections.actionNavigationHomeToCompanyPageFragment(index)
             findNavController().navigate(action)
         }
@@ -51,10 +52,14 @@ class HomeFragment : Fragment() {
         GlobalScope.launch(Dispatchers.Main) {
             val assets = userID?.let { SMS().getUserAssets(it).toMutableList() }
             if (assets != null) {
-                portfolioAdapter.updateAssets(assets)
+                assets.forEachIndexed { index, asset ->
+                    portfolioAdapter.fetchAssetTotalValue(asset, index)
+                }
                 setupSorting()
-                val totalAssetValue = assets.sumOf { it.value }.toString()
+
                 val cash = userID.let { SMS().getUserCash(it) }
+                portfolioAdapter.updateAssets(assets)
+                val totalAssetValue = assets.sumOf { it.totalValue }.toString()
                 val totalPortfolioValue = cash?.add(totalAssetValue.toBigDecimal())
                 binding.textPortfolioValue.text = "$$totalPortfolioValue"
             }
@@ -63,21 +68,37 @@ class HomeFragment : Fragment() {
         return root
     }
 
+
+
     private fun setupSorting() {
         binding.textTickerTitle.setOnClickListener {
-            portfolioAdapter.sortByColumn(SortColumn.NAME, !portfolioAdapter.isAscending())
-            updateSortTitleBackground(binding.textTickerTitle, SortColumn.NAME)
+            if (::portfolioAdapter.isInitialized) {
+                portfolioAdapter.sortByColumn(SortColumn.NAME, !portfolioAdapter.isAscending())
+                updateSortTitleBackground(binding.textTickerTitle, SortColumn.NAME)
+            }
         }
 
         binding.textValueTitle.setOnClickListener {
-            portfolioAdapter.sortByColumn(SortColumn.PRICE, !portfolioAdapter.isAscending())
-            updateSortTitleBackground(binding.textValueTitle, SortColumn.PRICE)
+            if (::portfolioAdapter.isInitialized) {
+                portfolioAdapter.sortByColumn(SortColumn.PRICE, !portfolioAdapter.isAscending())
+                updateSortTitleBackground(binding.textValueTitle, SortColumn.PRICE)
+            }
         }
 
         binding.textQuantityTitle.setOnClickListener {
-            portfolioAdapter.sortByColumn(SortColumn.QUANTITY, !portfolioAdapter.isAscending())
-            updateSortTitleBackground(binding.textQuantityTitle, SortColumn.QUANTITY)
+            if (::portfolioAdapter.isInitialized) {
+                portfolioAdapter.sortByColumn(SortColumn.QUANTITY, !portfolioAdapter.isAscending())
+                updateSortTitleBackground(binding.textQuantityTitle, SortColumn.QUANTITY)
+            }
         }
+
+        binding.textTotalValueTitle.setOnClickListener {
+            if (::portfolioAdapter.isInitialized) {
+                portfolioAdapter.sortByColumn(SortColumn.TOTALVALUE, !portfolioAdapter.isAscending())
+                updateSortTitleBackground(binding.textTotalValueTitle, SortColumn.TOTALVALUE)
+            }
+        }
+
     }
 
     private fun updateSortTitleBackground(view: View, column: SortColumn) {
@@ -85,6 +106,7 @@ class HomeFragment : Fragment() {
         binding.textTickerTitle.setBackgroundColor(Color.TRANSPARENT)
         binding.textValueTitle.setBackgroundColor(Color.TRANSPARENT)
         binding.textQuantityTitle.setBackgroundColor(Color.TRANSPARENT)
+        binding.textTotalValueTitle.setBackgroundColor(Color.TRANSPARENT)
 
         // Set the background color of the clicked title to yellow
         val backgroundColor = if (portfolioAdapter.getSortColumn() == column) {
