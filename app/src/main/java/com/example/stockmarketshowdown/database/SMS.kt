@@ -389,7 +389,6 @@ public class SMS {
     suspend fun updateUserProfile(userProfile: UserProfile) = withContext(Dispatchers.IO) {
         var connection: Connection? = null
         var preparedStatement: PreparedStatement? = null
-        Log.d("SMS: UpdateUserProfile", userProfile.toString())
         try {
             connection = getConnection()
             val sql = "UPDATE Users SET DisplayName = ?, Biography = ?, Tagline = ?, Picture = ? WHERE UserID = ?"
@@ -397,8 +396,9 @@ public class SMS {
             preparedStatement.setString(1, userProfile.displayName)
             preparedStatement.setString(2, userProfile.biography)
             preparedStatement.setString(3, userProfile.tagline)
-            preparedStatement.setString(4, userProfile.userID)
-            preparedStatement.setString(5, userProfile.picture)
+            preparedStatement.setString(4, userProfile.picture)
+            preparedStatement.setString(5, userProfile.userID)
+            Log.d("SMS: SQL", preparedStatement.toString())
             preparedStatement.executeUpdate()
         } catch (e: SQLException) {
             e.printStackTrace()

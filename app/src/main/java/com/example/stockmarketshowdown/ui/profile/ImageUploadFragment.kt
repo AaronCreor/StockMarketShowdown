@@ -3,7 +3,6 @@ package com.example.stockmarketshowdown.ui.profile
 import android.app.AlertDialog
 import android.app.Dialog
 import android.os.Bundle
-import android.util.Log
 import android.widget.EditText
 import androidx.core.os.bundleOf
 import androidx.fragment.app.DialogFragment
@@ -28,7 +27,6 @@ class ImageUploadFragment : DialogFragment() {
             .setPositiveButton("OK") { _, _ ->
                 val url = editText.text.toString()
                 setFragmentResult(EditDialogContract.REQUEST_KEY, bundleOf(EditDialogContract.RESPONSE_KEY to url))
-                Log.d("IUF", "Send url: $url")
             }
             .setNegativeButton("Cancel") { dialog, _ ->
                 dialog.cancel()

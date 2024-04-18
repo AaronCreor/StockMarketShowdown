@@ -49,7 +49,12 @@ class LeaderboardFragment : Fragment(R.layout.fragment_leaderboard) {
                     loadPersonalRank(entry, index + 1)
                 }
             }
-            adapter.submitList(it)
+            if (it.size > 10) {
+                val list = it.subList(0, 9)
+                adapter.submitList(list)
+            } else {
+                adapter.submitList(it)
+            }
         }
 
         lifecycleScope.launch {
