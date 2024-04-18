@@ -60,15 +60,15 @@ class ProfileViewModel : ViewModel() {
         return userProfile
     }
 
-    fun getDisplayName(): String {
+    fun getDisplayName(): String? {
         return userProfile.value!!.displayName
     }
 
-    fun getTagline(): String {
+    fun getTagline(): String? {
         return userProfile.value!!.tagline
     }
 
-    fun getAbout(): String {
+    fun getAbout(): String? {
         return userProfile.value!!.biography
     }
 }

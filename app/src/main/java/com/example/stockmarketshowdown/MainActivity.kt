@@ -31,9 +31,9 @@ class MainActivity : AppCompatActivity() {
     }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        AuthInit(viewModel, signInLauncher)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        AuthInit(viewModel, signInLauncher)
         viewModel.populateCompanyList(this)
 
         val navView: BottomNavigationView = binding.navView

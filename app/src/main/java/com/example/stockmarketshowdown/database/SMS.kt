@@ -21,7 +21,7 @@ import java.sql.SQLException
 
 private const val JDBC_URL = "jdbc:mysql://stockmarketshowdown.cz2uyc2wg0ss.us-east-2.rds.amazonaws.com:3306/SMS"
 private const val USER = "SMS"
-private const val PASSWORD = "gr3atViolet66"
+private const val PASSWORD = "gr3atViolet66" //Plain text :)
 private const val JDBC_DRIVER = "com.mysql.cj.jdbc.Driver"
 public class SMS {
     // Method to establish a database connection
@@ -36,15 +36,16 @@ public class SMS {
             val policy = StrictMode.ThreadPolicy.Builder().permitAll().build()
             StrictMode.setThreadPolicy(policy)
             connection = getConnection()
-            val sql = "INSERT INTO Users (UserID, DisplayName, Email, Biography, Tagline, Cash) VALUES (?, ?, ?, ?, ?, ?)"
+            val sql = "INSERT INTO Users (UserID, DisplayName, Email, Biography, Tagline, Cash, Picture) VALUES (?, ?, ?, ?, ?, ?, ?)"
             preparedStatement = connection.prepareStatement(sql)
-            // Set parameters
             preparedStatement.setString(1, userID)
             preparedStatement.setString(2, displayName)
             preparedStatement.setString(3, email)
             preparedStatement.setString(4, biography)
             preparedStatement.setString(5, tagline)
             preparedStatement.setBigDecimal(6, cash)
+            preparedStatement.setString(7, "")
+
             // Execute SQL statement
             preparedStatement.executeUpdate()
         } catch (e: SQLException) {
@@ -88,10 +89,10 @@ public class SMS {
             if(!SMS().checkUser(user.uid)) {
                 SMS().insertUser(
                     user.uid,
-                    "test",
-                    "test",
-                    "test",
-                    "test",
+                    "",
+                    user.email,
+                    "",
+                    "",
                     (10000.00).toBigDecimal()
                 )
                 Log.d("SQL", "User doesn't exist. Creating entry on SMS.Users")
@@ -185,13 +186,15 @@ public class SMS {
                 // Row exists, update the existing row
                 val existingOwnership = resultSet.getInt("Ownership")
                 val existingCost = resultSet.getBigDecimal("Cost")
-                val newOwnership = existingOwnership + ownership
-                val newCost = if (existingOwnership == 0) cost else ((existingCost * existingOwnership.toBigDecimal()) + (cost * ownership.toBigDecimal())) / newOwnership.toBigDecimal()
+
+                val totalOwnership = existingOwnership + ownership
+                val totalCost = existingCost * BigDecimal(existingOwnership) + cost * BigDecimal(ownership)
+                val newAverageCostPerShare = if (totalOwnership != 0) totalCost / BigDecimal(totalOwnership) else BigDecimal.ZERO
 
                 val updateQuery = "UPDATE Portfolio SET Ownership = ?, Cost = ? WHERE UserID = ? AND Company = ?"
                 val updateStatement = connection.prepareStatement(updateQuery)
-                updateStatement.setInt(1, newOwnership)
-                updateStatement.setBigDecimal(2, newCost)
+                updateStatement.setInt(1, totalOwnership)
+                updateStatement.setBigDecimal(2, newAverageCostPerShare)
                 updateStatement.setString(3, userID)
                 updateStatement.setString(4, company)
                 updateStatement.executeUpdate()
@@ -306,7 +309,8 @@ public class SMS {
             val name = resultSet.getString("Company")
             val quantity = resultSet.getInt("Ownership")
             val cost = resultSet.getBigDecimal("Cost")
-            assets.add(Asset(name, quantity, cost))
+            val totalValue = BigDecimal.ZERO // Initialize totalValue to zero
+            assets.add(Asset(name, quantity, cost, totalValue))
         }
 
         resultSet.close()
@@ -354,7 +358,7 @@ public class SMS {
         SELECT UserID, DisplayName, Email, Biography, Tagline, Cash, Picture
         FROM Users
         WHERE UserID = ?
-    """.trimIndent()
+        """.trimIndent()
 
         val preparedStatement = connection.prepareStatement(query)
         preparedStatement.setString(1, userID)
@@ -453,5 +457,67 @@ public class SMS {
 
         history
     }
+
+    suspend fun getScore(userID: String): Int? = withContext(Dispatchers.IO) {
+        var connection: Connection? = null
+        var preparedStatement: PreparedStatement? = null
+        var resultSet: ResultSet? = null
+        var score: Int? = null
+        try {
+            connection = getConnection()
+            val sql = "SELECT Score FROM Score WHERE UserID = ?"
+            preparedStatement = connection.prepareStatement(sql)
+            preparedStatement.setString(1, userID)
+            resultSet = preparedStatement.executeQuery()
+            if (resultSet.next()) {
+                score = resultSet.getInt("Score")
+            }
+        } catch (e: SQLException) {
+            e.printStackTrace()
+        } finally {
+            resultSet?.close()
+            preparedStatement?.close()
+            connection?.close()
+        }
+        score
+    }
+
+    suspend fun setScore(userID: String, newScore: Int) = withContext(Dispatchers.IO) {
+        var connection: Connection? = null
+        var preparedStatement: PreparedStatement? = null
+        try {
+            connection = getConnection()
+            val sql = "INSERT INTO Score (UserID, Score) VALUES (?, ?) ON DUPLICATE KEY UPDATE Score = ?"
+            preparedStatement = connection.prepareStatement(sql)
+            preparedStatement.setString(1, userID)
+            preparedStatement.setInt(2, newScore)
+            preparedStatement.setInt(3, newScore)
+            preparedStatement.executeUpdate()
+        } catch (e: SQLException) {
+            e.printStackTrace()
+        } finally {
+            preparedStatement?.close()
+            connection?.close()
+        }
+    }
+
+    suspend fun updateScore(userID: String, newScore: Int) = withContext(Dispatchers.IO) {
+        var connection: Connection? = null
+        var preparedStatement: PreparedStatement? = null
+        try {
+            connection = getConnection()
+            val sql = "UPDATE Score SET Score = ? WHERE UserID = ?"
+            preparedStatement = connection.prepareStatement(sql)
+            preparedStatement.setInt(1, newScore)
+            preparedStatement.setString(2, userID)
+            preparedStatement.executeUpdate()
+        } catch (e: SQLException) {
+            e.printStackTrace()
+        } finally {
+            preparedStatement?.close()
+            connection?.close()
+        }
+    }
+
 
 }

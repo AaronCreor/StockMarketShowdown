@@ -12,6 +12,7 @@ import com.bumptech.glide.Glide
 import com.example.stockmarketshowdown.MainActivity
 import com.example.stockmarketshowdown.MainViewModel
 import com.example.stockmarketshowdown.R
+import com.example.stockmarketshowdown.database.SMS
 import com.example.stockmarketshowdown.databinding.FragmentProfileBinding
 import com.example.stockmarketshowdown.model.UserProfile
 import kotlinx.coroutines.launch
@@ -115,16 +116,16 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
         binding.biography.text = userProfile.biography
         binding.displayName.text = userProfile.displayName
         binding.email.text = userProfile.email
-        binding.netWorth.text = userProfile.cash.toString()
         binding.tagline.text = userProfile.tagline
         binding.username.text = userProfile.displayName
-        if (userProfile.picture.isEmpty()) {
+        if (userProfile.picture.isNullOrEmpty()) {
             binding.profileImage.setImageResource(R.drawable.ic_profile_default)
         } else {
             Glide.with(requireContext())
                 .load(userProfile.picture)
                 .into(binding.profileImage)
         }
+        fetchAndUpdateScore(userProfile.userID)
     }
 
     private fun turnOnEdit() {
@@ -158,6 +159,19 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
         binding.editButton.visibility = View.VISIBLE
         binding.saveButton.visibility = View.GONE
         binding.exitButton.visibility = View.GONE
+    }
+
+    private fun fetchAndUpdateScore(userID: String) {
+        lifecycleScope.launch {
+            try {
+                val score = SMS().getScore(userID)
+                if (score != null) {
+                    binding.netWorth.text = """${"$"}$score"""
+                }
+            } catch (e: Exception) {
+                Log.e("ProfileFragment", "Error fetching user score: ${e.message}")
+            }
+        }
     }
 
     override fun onDestroyView() {
