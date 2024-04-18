@@ -1,5 +1,6 @@
 package com.example.stockmarketshowdown.ui.profile
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -32,8 +33,25 @@ class ProfileViewModel : ViewModel() {
             userProfile.value!!.email,
             biography,
             tagline,
-            userProfile.value!!.cash
+            userProfile.value!!.cash,
+            userProfile.value!!.picture
         )
+        sms.updateUserProfile(data)
+        fetchUserProfile(resultListener)
+    }
+
+    suspend fun updateUserPicture(url: String, resultListener: () -> Unit) {
+        Log.d("ProfileViewModel", "UpdateUserPicture called")
+        val data = UserProfile(
+            userProfile.value!!.userID,
+            userProfile.value!!.displayName,
+            userProfile.value!!.email,
+            userProfile.value!!.biography,
+            userProfile.value!!.tagline,
+            userProfile.value!!.cash,
+            url
+        )
+        Log.d("ProfileViewModel", "url: $url")
         sms.updateUserProfile(data)
         fetchUserProfile(resultListener)
     }

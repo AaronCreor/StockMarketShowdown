@@ -1,12 +1,16 @@
 package com.example.stockmarketshowdown.ui.profile
 
+import android.app.AlertDialog
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.setFragmentResultListener
 import androidx.lifecycle.lifecycleScope
+import com.bumptech.glide.Glide
 import com.example.stockmarketshowdown.MainActivity
+import com.example.stockmarketshowdown.MainViewModel
 import com.example.stockmarketshowdown.R
 import com.example.stockmarketshowdown.databinding.FragmentProfileBinding
 import com.example.stockmarketshowdown.model.UserProfile
@@ -21,7 +25,25 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
 
     private val viewModel: ProfileViewModel by activityViewModels()
 
+    private val mainViewModel: MainViewModel by activityViewModels()
+
     var userProfile = null
+
+    private fun showConfirmationSignOut() {
+        val mainActivity = (requireActivity() as MainActivity)
+        val builder = AlertDialog.Builder(requireContext())
+        builder.setTitle("Confirm Sign Out")
+        builder.setMessage("Are you sure you want to sign out")
+        builder.setPositiveButton("Yes") { dialog, _ ->
+            mainViewModel.signOut()
+            dialog.dismiss()
+        }
+        builder.setNegativeButton("No") { dialog, _ ->
+            dialog.dismiss()
+        }
+        val dialog = builder.create()
+        dialog.show()
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -30,8 +52,30 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
         Log.d(javaClass.simpleName, "onViewCreated")
         val mainActivity = (requireActivity() as MainActivity)
 
+        setFragmentResultListener(ImageUploadFragment.EditDialogContract.REQUEST_KEY) { _, bundle ->
+            val url = bundle.getString(ImageUploadFragment.EditDialogContract.RESPONSE_KEY)
+            Log.d("ProfileFragment", "Entered URL: $url")
+            mainActivity.progressBarOn()
+            lifecycleScope.launch {
+                if (url != null) {
+                    viewModel.updateUserPicture(url) {
+                        mainActivity.progressBarOff()
+                    }
+                }
+            }
+        }
+
+        binding.signOutText.setOnClickListener {
+            showConfirmationSignOut()
+        }
+
         viewModel.observeUserProfile().observe(viewLifecycleOwner) {
             loadProfile(it)
+        }
+
+        binding.profileImage.setOnClickListener {
+            val dialog = ImageUploadFragment()
+            dialog.show(parentFragmentManager, ImageUploadFragment.TAG)
         }
 
         binding.editButton.setOnClickListener {
@@ -74,6 +118,13 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
         binding.netWorth.text = userProfile.cash.toString()
         binding.tagline.text = userProfile.tagline
         binding.username.text = userProfile.displayName
+        if (userProfile.picture.isEmpty()) {
+            binding.profileImage.setImageResource(R.drawable.ic_profile_default)
+        } else {
+            Glide.with(requireContext())
+                .load(userProfile.picture)
+                .into(binding.profileImage)
+        }
     }
 
     private fun turnOnEdit() {

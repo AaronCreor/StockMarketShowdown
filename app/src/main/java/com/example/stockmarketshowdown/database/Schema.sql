@@ -6,7 +6,8 @@ CREATE TABLE Users (
     Email VARCHAR(100),
     Biography TEXT,
     Tagline VARCHAR(255),
-    Cash DECIMAL(10, 2)
+    Cash DECIMAL(10, 2),
+    Picture VARCHAR(255)
 );
 
 CREATE TABLE TransactionHistory (

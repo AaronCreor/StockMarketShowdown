@@ -6,5 +6,6 @@ data class UserProfile (
     val email: String,
     val biography: String,
     val tagline: String,
-    val cash: Double
+    val cash: Double,
+    val picture: String
 )
