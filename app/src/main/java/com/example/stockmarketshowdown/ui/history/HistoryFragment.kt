@@ -75,10 +75,11 @@ class HistoryFragment : Fragment(R.layout.fragment_history) {
         }
 
         viewModel.observeSortInfo().observe(viewLifecycleOwner) {
+            binding.headerType.setBackgroundColor(Color.TRANSPARENT)
+            binding.headerDate.setBackgroundColor(Color.TRANSPARENT)
+            binding.headerValue.setBackgroundColor(Color.TRANSPARENT)
+            binding.headerCompany.setBackgroundColor(Color.TRANSPARENT)
             if (it.sortColumn == SortColumn.COMPANY) {
-                binding.headerType.setBackgroundColor(Color.TRANSPARENT)
-                binding.headerDate.setBackgroundColor(Color.TRANSPARENT)
-                binding.headerValue.setBackgroundColor(Color.TRANSPARENT)
                 if (it.ascending) {
                     binding.headerCompany.setBackgroundColor(Color.GRAY)
                     binding.headerCompany.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_arrow_up, 0)
@@ -87,9 +88,6 @@ class HistoryFragment : Fragment(R.layout.fragment_history) {
                     binding.headerCompany.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_arrow_down, 0)
                 }
             } else if (it.sortColumn == SortColumn.DATE) {
-                binding.headerType.setBackgroundColor(Color.TRANSPARENT)
-                binding.headerCompany.setBackgroundColor(Color.TRANSPARENT)
-                binding.headerValue.setBackgroundColor(Color.TRANSPARENT)
                 if (it.ascending) {
                     binding.headerDate.setBackgroundColor(Color.GRAY)
                     binding.headerDate.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_arrow_up, 0)
@@ -98,9 +96,6 @@ class HistoryFragment : Fragment(R.layout.fragment_history) {
                     binding.headerDate.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_arrow_down, 0)
                 }
             } else if (it.sortColumn == SortColumn.TYPE) {
-                binding.headerCompany.setBackgroundColor(Color.TRANSPARENT)
-                binding.headerDate.setBackgroundColor(Color.TRANSPARENT)
-                binding.headerValue.setBackgroundColor(Color.TRANSPARENT)
                 if (it.ascending) {
                     binding.headerType.setBackgroundColor(Color.GRAY)
                     binding.headerType.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_arrow_up, 0)
@@ -110,9 +105,6 @@ class HistoryFragment : Fragment(R.layout.fragment_history) {
 
                 }
             } else if (it.sortColumn == SortColumn.VALUE) {
-                binding.headerType.setBackgroundColor(Color.TRANSPARENT)
-                binding.headerDate.setBackgroundColor(Color.TRANSPARENT)
-                binding.headerCompany.setBackgroundColor(Color.TRANSPARENT)
                 if (it.ascending) {
                     binding.headerValue.setBackgroundColor(Color.GRAY)
                     binding.headerValue.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_arrow_up, 0)

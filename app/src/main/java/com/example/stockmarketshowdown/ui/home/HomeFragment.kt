@@ -6,17 +6,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.stockmarketshowdown.R
 import com.example.stockmarketshowdown.database.SMS
 import com.example.stockmarketshowdown.databinding.FragmentHomeBinding
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
-import androidx.navigation.fragment.findNavController
-import com.example.stockmarketshowdown.R
-import com.example.stockmarketshowdown.ui.home.HomeFragmentDirections
 import java.math.BigDecimal
 
 enum class SortColumn {
@@ -141,9 +139,35 @@ class HomeFragment : Fragment() {
 
         // Set the background color of the clicked title to yellow
         val backgroundColor = if (portfolioAdapter.getSortColumn() == column) {
-            if (portfolioAdapter.isAscending()) Color.YELLOW else Color.RED
+            Color.GRAY
         } else {
             Color.TRANSPARENT
+        }
+
+        if (column == SortColumn.NAME) {
+            if (portfolioAdapter.isAscending()) {
+                binding.textTickerTitle.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_arrow_up, 0)
+            } else {
+                binding.textTickerTitle.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_arrow_down, 0)
+            }
+        } else if (column == SortColumn.PRICE) {
+            if (portfolioAdapter.isAscending()) {
+                binding.textValueTitle.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_arrow_up, 0)
+            } else {
+                binding.textValueTitle.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_arrow_down, 0)
+            }
+        } else if (column == SortColumn.QUANTITY) {
+            if (portfolioAdapter.isAscending()) {
+                binding.textQuantityTitle.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_arrow_up, 0)
+            } else {
+                binding.textQuantityTitle.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_arrow_down, 0)
+            }
+        } else {
+            if (portfolioAdapter.isAscending()) {
+                binding.textTotalValueTitle.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_arrow_up, 0)
+            } else {
+                binding.textTotalValueTitle.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_arrow_down, 0)
+            }
         }
         view.setBackgroundColor(backgroundColor)
     }
