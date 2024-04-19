@@ -33,21 +33,21 @@ class GlobalViewFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val currentUserUID = FirebaseAuth.getInstance().currentUser?.uid
+
         databaseReference = FirebaseDatabase.getInstance().reference
             .child("users")
-            .child(currentUserUID!!)
-            .child("transaction_history")
 
         databaseReference.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 val dataList = mutableListOf<RVGlobalAdapter.GlobalData>()
-                for (dataSnapshot in snapshot.children) {
-                    val ticker = dataSnapshot.child("ticker").getValue(String::class.java) ?: ""
-                    val quantity = dataSnapshot.child("quantity").getValue(Int::class.java) ?: 0
-                    val action = dataSnapshot.child("action").getValue(String::class.java) ?: ""
-                    val timestamp = dataSnapshot.child("timestamp").getValue(Long::class.java) ?: 0
-                    dataList.add(RVGlobalAdapter.GlobalData(ticker, quantity, action, timestamp))
+                for (userSnapshot in snapshot.children) {
+                    for (transactionSnapshot in userSnapshot.child("transaction_history").children) {
+                        val ticker = transactionSnapshot.child("ticker").getValue(String::class.java) ?: ""
+                        val quantity = transactionSnapshot.child("quantity").getValue(Int::class.java) ?: 0
+                        val action = transactionSnapshot.child("action").getValue(String::class.java) ?: ""
+                        val timestamp = transactionSnapshot.child("timestamp").getValue(Long::class.java) ?: 0
+                        dataList.add(RVGlobalAdapter.GlobalData(ticker, quantity, action, timestamp))
+                    }
                 }
                 adapter.updateData(dataList)
             }
