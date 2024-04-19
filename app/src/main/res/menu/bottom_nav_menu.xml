@@ -15,14 +15,15 @@
         android:id="@+id/navigation_history"
         android:icon="@drawable/ic_history"
         android:title="History" />
+
+    <item
+        android:id="@+id/navigation_leaderboard"
+        android:icon="@drawable/ic_trophy_icon"
+        android:title="Leaderboard"/>
+
     <item
         android:id="@+id/navigation_profile"
         android:icon="@drawable/ic_profile_black_24dp"
         android:title="@string/profile"/>
-
-    <item
-        android:id="@+id/navigation_leaderboard"
-        android:icon="@drawable/transparent_crown"
-        android:title="Leaderboard"/>
 
 </menu>

@@ -33,7 +33,21 @@ class ProfileViewModel : ViewModel() {
             biography,
             tagline,
             userProfile.value!!.cash,
-            ""
+            userProfile.value!!.picture
+        )
+        sms.updateUserProfile(data)
+        fetchUserProfile(resultListener)
+    }
+
+    suspend fun updateUserPicture(url: String, resultListener: () -> Unit) {
+        val data = UserProfile(
+            userProfile.value!!.userID,
+            userProfile.value!!.displayName,
+            userProfile.value!!.email,
+            userProfile.value!!.biography,
+            userProfile.value!!.tagline,
+            userProfile.value!!.cash,
+            url
         )
         sms.updateUserProfile(data)
         fetchUserProfile(resultListener)

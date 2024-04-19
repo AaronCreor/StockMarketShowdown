@@ -46,12 +46,21 @@ class LeaderboardAdapter(private val viewModel: LeaderboardViewModel)
                     if (position == 0) {
                         holder.rowBinding.root.setBackgroundColor(Color.rgb(240, 200, 91))
                         holder.rowBinding.rowImage.setImageResource(R.drawable.ic_gold_crown)
+                        holder.rowBinding.rowName.textSize = 28.0F
+                        holder.rowBinding.rowTagline.textSize = 16.0F
+                        holder.rowBinding.rowScore.textSize = 16.0F
                     } else if (position == 1) {
                         holder.rowBinding.root.setBackgroundColor(Color.rgb(196, 193, 183))
                         holder.rowBinding.rowImage.setImageResource(R.drawable.ic_silver_crown)
+                        holder.rowBinding.rowName.textSize = 24.0F
+                        holder.rowBinding.rowTagline.textSize = 16.0F
+                        holder.rowBinding.rowScore.textSize = 16.0F
                     } else {
                         holder.rowBinding.root.setBackgroundColor(Color.rgb(252, 167, 30))
                         holder.rowBinding.rowImage.setImageResource(R.drawable.ic_bronze_crown)
+                        holder.rowBinding.rowName.textSize = 20.0F
+                        holder.rowBinding.rowTagline.textSize = 16.0F
+                        holder.rowBinding.rowScore.textSize = 16.0F
                     }
                 } else {
                     holder.rowBinding.rowImage.visibility = GONE

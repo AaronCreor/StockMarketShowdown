@@ -8,8 +8,6 @@ import com.example.stockmarketshowdown.model.LeaderboardEntry
 
 class LeaderboardViewModel : ViewModel() {
 
-    private val leaderboardData = LeaderboardData.leaderboard.sortedByDescending { it.score }
-
     private val sms = SMS()
 
     private var leaderboardList = MutableLiveData<List<LeaderboardEntry>>()

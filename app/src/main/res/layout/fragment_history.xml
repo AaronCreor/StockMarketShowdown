@@ -25,18 +25,20 @@
             android:background="#d3d3d3"
             android:layout_margin="3dp"
             android:gravity="center"
+            android:drawableEnd="@drawable/ic_arrow_up"
             android:id="@+id/headerDate"
             />
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_weight="1.5"
             android:text="Company"
             android:textStyle="bold"
             android:textSize="16sp"
             android:background="#d3d3d3"
             android:layout_margin="3dp"
             android:gravity="center"
+            android:drawableEnd="@drawable/ic_arrow_up"
             android:id="@+id/headerCompany"
             />
         <TextView
@@ -49,6 +51,7 @@
             android:background="#d3d3d3"
             android:layout_margin="3dp"
             android:gravity="center"
+            android:drawableEnd="@drawable/ic_arrow_up"
             android:id="@+id/headerType"
             />
         <TextView
@@ -61,6 +64,7 @@
             android:background="#d3d3d3"
             android:layout_margin="3dp"
             android:gravity="center"
+            android:drawableEnd="@drawable/ic_arrow_up"
             android:id="@+id/headerValue"
             />
     </LinearLayout>

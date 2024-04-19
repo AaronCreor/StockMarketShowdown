@@ -11,6 +11,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.stockmarketshowdown.MainActivity
 import com.example.stockmarketshowdown.R
 import com.example.stockmarketshowdown.databinding.FragmentLeaderboardBinding
+import com.example.stockmarketshowdown.model.LeaderboardEntry
+import com.google.firebase.Firebase
+import com.google.firebase.auth.auth
 import kotlinx.coroutines.launch
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
@@ -40,7 +43,18 @@ class LeaderboardFragment : Fragment(R.layout.fragment_leaderboard) {
         binding.header.text = currentTime.format(formatter) + " Balance"
 
         viewModel.observeLeaderboardList().observe(viewLifecycleOwner) {
-            adapter.submitList(it)
+            val currentId = Firebase.auth.currentUser?.uid
+            for ((index, entry) in it.withIndex()) {
+                if (entry.userID == currentId) {
+                    loadPersonalRank(entry, index + 1)
+                }
+            }
+            if (it.size > 10) {
+                val list = it.subList(0, 9)
+                adapter.submitList(list)
+            } else {
+                adapter.submitList(it)
+            }
         }
 
         lifecycleScope.launch {
@@ -49,5 +63,13 @@ class LeaderboardFragment : Fragment(R.layout.fragment_leaderboard) {
                 mainActivity.progressBarOff()
             }
         }
+    }
+
+    private fun loadPersonalRank(entry: LeaderboardEntry, position: Int) {
+        binding.rowImage.visibility = View.GONE
+        binding.rowName.text = entry.displayName
+        binding.rowScore.text = entry.score.toString()
+        binding.rowTagline.text = entry.tagline
+        binding.rowPosition.text = position.toString()
     }
 }

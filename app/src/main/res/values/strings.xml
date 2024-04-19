@@ -18,4 +18,6 @@
     <string name="fake_example_com">fake@example.com</string>
     <string name="net_worth">Net Worth</string>
     <string name="_410_000_000">$410,000,000</string>
+    <string name="sign_out">Sign Out</string>
+    <string name="click_to_upload_url">Click to upload url</string>
 </resources>

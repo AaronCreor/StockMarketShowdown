@@ -323,11 +323,10 @@ public class SMS {
     suspend fun getTop10Scores(): List<LeaderboardEntry> = withContext(Dispatchers.IO) {
         val connection = getConnection()
         val query = """
-        SELECT Score.ScoreID, Score.Score, Users.DisplayName, Users.Tagline
+        SELECT Score.ScoreID, Score.Score, Users.DisplayName, Users.Tagline, Users.UserID
         FROM Score
         INNER JOIN Users ON Score.UserID = Users.UserID
         ORDER BY Score.Score DESC
-        LIMIT 10
     """.trimIndent()
 
         val preparedStatement = connection.prepareStatement(query)
@@ -337,11 +336,12 @@ public class SMS {
         val leaderboardEntries = mutableListOf<LeaderboardEntry>()
         while (resultSet.next()) {
             val id = resultSet.getInt("Score.ScoreID")
+            val userId = resultSet.getString("Users.UserID")
             val name = resultSet.getString("Users.DisplayName")
             val score = resultSet.getInt("Score.Score")
             val tagline = resultSet.getString("Users.Tagline")
             leaderboardEntries.add(
-                LeaderboardEntry(id, score, name, tagline)
+                LeaderboardEntry(id, userId, score, name, tagline)
             )
         }
 
@@ -391,12 +391,14 @@ public class SMS {
         var preparedStatement: PreparedStatement? = null
         try {
             connection = getConnection()
-            val sql = "UPDATE Users SET DisplayName = ?, Biography = ?, Tagline = ? WHERE UserID = ?"
+            val sql = "UPDATE Users SET DisplayName = ?, Biography = ?, Tagline = ?, Picture = ? WHERE UserID = ?"
             preparedStatement = connection.prepareStatement(sql)
             preparedStatement.setString(1, userProfile.displayName)
             preparedStatement.setString(2, userProfile.biography)
             preparedStatement.setString(3, userProfile.tagline)
-            preparedStatement.setString(4, userProfile.userID)
+            preparedStatement.setString(4, userProfile.picture)
+            preparedStatement.setString(5, userProfile.userID)
+            Log.d("SMS: SQL", preparedStatement.toString())
             preparedStatement.executeUpdate()
         } catch (e: SQLException) {
             e.printStackTrace()
