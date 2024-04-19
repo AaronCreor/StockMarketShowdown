@@ -81,6 +81,13 @@ dependencies {
     annotationProcessor("com.github.bumptech.glide:compiler:4.12.0")
     val appcompat_version = "1.6.1"
     implementation("androidx.appcompat:appcompat:$appcompat_version")
+    // Import the BoM for the Firebase platform
+    implementation(platform("com.google.firebase:firebase-bom:32.8.1"))//https://firebase.google.com/docs/database/android/start
+
+    // Add the dependency for the Realtime Database library
+    // When using the BoM, you don't specify versions in Firebase library dependencies
+    implementation("com.google.firebase:firebase-database")
+
 
 
 }

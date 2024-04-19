@@ -17,6 +17,7 @@ import kotlinx.coroutines.launch
 import androidx.navigation.fragment.findNavController
 import com.example.stockmarketshowdown.R
 import com.example.stockmarketshowdown.ui.home.HomeFragmentDirections
+import kotlinx.coroutines.Job
 import java.math.BigDecimal
 
 enum class SortColumn {
@@ -30,7 +31,7 @@ class HomeFragment : Fragment() {
 
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
-
+    private var job: Job? = null
     private lateinit var portfolioAdapter: RVPortfolioAdapter
 
     override fun onCreateView(
@@ -51,7 +52,7 @@ class HomeFragment : Fragment() {
             adapter = portfolioAdapter
         }
 
-        GlobalScope.launch(Dispatchers.Main) {
+        job = GlobalScope.launch(Dispatchers.Main) {
             val assets = userID?.let { SMS().getUserAssets(it).toMutableList() }
             if (assets != null) {
                 assets.forEachIndexed { index, asset ->
@@ -70,6 +71,10 @@ class HomeFragment : Fragment() {
                     updateScore(userID, totalPortfolioValue)
                 }
             }
+        }
+        binding.imageGlobe.setOnClickListener {
+            // Navigate to the GlobalViewFragment
+            findNavController().navigate(HomeFragmentDirections.actionHomeToGlobalView())
         }
 
         return root
@@ -151,5 +156,6 @@ class HomeFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+        job?.cancel()//this stops us from crashing when we swap views too fast
     }
 }
