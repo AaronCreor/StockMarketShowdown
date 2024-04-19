@@ -1,6 +1,6 @@
 package com.example.stockmarketshowdown.ui.history
 
-import android.graphics.Color
+import android.graphics.Typeface
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -75,43 +75,38 @@ class HistoryFragment : Fragment(R.layout.fragment_history) {
         }
 
         viewModel.observeSortInfo().observe(viewLifecycleOwner) {
-            binding.headerType.setBackgroundColor(Color.TRANSPARENT)
-            binding.headerDate.setBackgroundColor(Color.TRANSPARENT)
-            binding.headerValue.setBackgroundColor(Color.TRANSPARENT)
-            binding.headerCompany.setBackgroundColor(Color.TRANSPARENT)
+            binding.headerType.setTypeface(null, Typeface.NORMAL)
+            binding.headerCompany.setTypeface(null, Typeface.NORMAL)
+            binding.headerDate.setTypeface(null, Typeface.NORMAL)
+            binding.headerValue.setTypeface(null, Typeface.NORMAL)
             if (it.sortColumn == SortColumn.COMPANY) {
                 if (it.ascending) {
-                    binding.headerCompany.setBackgroundColor(Color.GRAY)
                     binding.headerCompany.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_arrow_up, 0)
                 } else {
-                    binding.headerCompany.setBackgroundColor(Color.GRAY)
                     binding.headerCompany.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_arrow_down, 0)
                 }
+                binding.headerCompany.setTypeface(binding.headerCompany.typeface, Typeface.BOLD)
             } else if (it.sortColumn == SortColumn.DATE) {
                 if (it.ascending) {
-                    binding.headerDate.setBackgroundColor(Color.GRAY)
                     binding.headerDate.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_arrow_up, 0)
                 } else {
-                    binding.headerDate.setBackgroundColor(Color.GRAY)
                     binding.headerDate.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_arrow_down, 0)
                 }
+                binding.headerDate.setTypeface(binding.headerDate.typeface, Typeface.BOLD)
             } else if (it.sortColumn == SortColumn.TYPE) {
                 if (it.ascending) {
-                    binding.headerType.setBackgroundColor(Color.GRAY)
                     binding.headerType.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_arrow_up, 0)
                 } else {
-                    binding.headerType.setBackgroundColor(Color.GRAY)
                     binding.headerType.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_arrow_down, 0)
-
                 }
+                binding.headerType.setTypeface(binding.headerType.typeface, Typeface.BOLD)
             } else if (it.sortColumn == SortColumn.VALUE) {
                 if (it.ascending) {
-                    binding.headerValue.setBackgroundColor(Color.GRAY)
                     binding.headerValue.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_arrow_up, 0)
                 } else {
-                    binding.headerValue.setBackgroundColor(Color.GRAY)
                     binding.headerValue.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_arrow_down, 0)
                 }
+                binding.headerValue.setTypeface(binding.headerValue.typeface, Typeface.BOLD)
             }
         }
 
