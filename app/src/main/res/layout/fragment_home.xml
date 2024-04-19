@@ -18,6 +18,19 @@
         app:layout_constraintEnd_toEndOf="parent">
 
         <!-- Portfolio Value Label TextView -->
+        <ImageView
+            android:id="@+id/image_globe"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginStart="8dp"
+            android:src="@drawable/ic_globe"
+            app:layout_constraintBottom_toBottomOf="@id/text_portfolio_value"
+            app:layout_constraintEnd_toStartOf="@id/text_portfolio_label"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/text_portfolio_value"
+            app:layout_constraintVertical_bias="0.333" />
+
         <TextView
             android:id="@+id/text_portfolio_label"
             android:layout_width="wrap_content"
