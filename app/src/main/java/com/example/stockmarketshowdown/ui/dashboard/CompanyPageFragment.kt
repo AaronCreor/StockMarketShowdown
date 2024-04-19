@@ -162,6 +162,7 @@ class CompanyPageFragment : Fragment() {
             SMS().insertTransaction(currentUserUID, "BUY", totalCost.toBigDecimal(), binding.ticker.text.toString())
             SMS().updateCash(currentUserUID, remainingCash)
             SMS().insertPortfolio(currentUserUID, binding.ticker.text.toString(), quantity, price.toBigDecimal())
+            RealTimeDB.insertTransaction(currentUserUID, quantity, binding.ticker.text.toString(), "BUY")
             fetchUserPortfolio()
             fetchUserCash()
             showSnackbar("Buy executed successfully. Total value: $costText")
@@ -196,6 +197,7 @@ class CompanyPageFragment : Fragment() {
 
         lifecycleScope.launch {
             val remainingCash = SMS().getUserCash(currentUserUID!!)!! + totalCost.toBigDecimal()
+            RealTimeDB.insertTransaction(currentUserUID, quantity, binding.ticker.text.toString(), "SELL")
             SMS().insertTransaction(currentUserUID, "SELL", totalCost.toBigDecimal(), binding.ticker.text.toString())
             SMS().updateCash(currentUserUID, remainingCash)
             SMS().updatePortfolio(currentUserUID, binding.ticker.text.toString(), -quantity)

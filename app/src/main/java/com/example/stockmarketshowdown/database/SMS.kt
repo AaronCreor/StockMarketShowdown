@@ -9,7 +9,9 @@ import com.example.stockmarketshowdown.model.UserProfile
 import com.example.stockmarketshowdown.ui.history.SortColumn
 import com.example.stockmarketshowdown.ui.history.SortInfo
 import com.example.stockmarketshowdown.ui.home.Asset
+import com.example.stockmarketshowdown.ui.profile.ImageUploadFragment.Companion.TAG
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.FirebaseDatabase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.math.BigDecimal

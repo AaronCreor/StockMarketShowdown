@@ -72,6 +72,10 @@ class HomeFragment : Fragment() {
                 }
             }
         }
+        binding.imageGlobe.setOnClickListener {
+            // Navigate to the GlobalViewFragment
+            findNavController().navigate(HomeFragmentDirections.actionHomeToGlobalView())
+        }
 
         return root
     }

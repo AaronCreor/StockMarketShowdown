@@ -17,7 +17,15 @@
                 android:name="companyIndex"
                 app:argType="integer" />
         </action>
+        <action
+            android:id="@+id/action_home_to_global_view"
+            app:destination="@id/globalViewFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/globalViewFragment"
+        android:name="com.example.stockmarketshowdown.ui.globe.GlobalViewFragment"
+        android:label="Global Trades"
+        tools:layout="@layout/fragment_global" />
 
 
     <fragment
@@ -33,6 +41,7 @@
                 app:argType="integer" />
         </action>
     </fragment>
+
 
     <fragment
         android:id="@+id/navigation_notifications"
