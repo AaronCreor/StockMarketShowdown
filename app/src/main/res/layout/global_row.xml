@@ -21,23 +21,6 @@
         android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
-        app:layout_constraintEnd_toStartOf="@+id/text_quantity"/>
-
-    <!-- Quantity -->
-    <TextView
-        android:id="@+id/text_quantity"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="Quantity"
-        android:textSize="14sp"
-        android:textColor="@color/black"
-        app:layout_constraintStart_toEndOf="@+id/text_ticker"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
         app:layout_constraintEnd_toStartOf="@+id/text_action"/>
 
     <!-- Action -->
@@ -48,7 +31,24 @@
         android:text="Action"
         android:textSize="14sp"
         android:textColor="@color/black"
-        app:layout_constraintStart_toEndOf="@+id/text_quantity"
+        app:layout_constraintStart_toEndOf="@+id/text_ticker"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintEnd_toStartOf="@+id/text_quantity"/>
+
+    <!-- Quantity -->
+    <TextView
+        android:id="@+id/text_quantity"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Quantity"
+        android:textSize="14sp"
+        android:textColor="@color/black"
+        app:layout_constraintStart_toEndOf="@+id/text_action"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         android:layout_marginStart="8dp"
@@ -65,7 +65,7 @@
         android:text="Timestamp"
         android:textSize="14sp"
         android:textColor="@color/black"
-        app:layout_constraintStart_toEndOf="@+id/text_action"
+        app:layout_constraintStart_toEndOf="@+id/text_quantity"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         android:layout_marginStart="8dp"
