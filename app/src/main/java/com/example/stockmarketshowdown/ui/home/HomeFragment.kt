@@ -1,13 +1,15 @@
 package com.example.stockmarketshowdown.ui.home
 
 import android.graphics.Color
+import android.graphics.Typeface
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.stockmarketshowdown.R
 import com.example.stockmarketshowdown.database.SMS
 import com.example.stockmarketshowdown.databinding.FragmentHomeBinding
 import com.google.firebase.auth.FirebaseAuth
@@ -138,19 +140,41 @@ class HomeFragment : Fragment() {
     }
 
     private fun updateSortTitleBackground(view: View, column: SortColumn) {
-        // Reset all column title colors to transparent
-        binding.textTickerTitle.setBackgroundColor(Color.TRANSPARENT)
-        binding.textValueTitle.setBackgroundColor(Color.TRANSPARENT)
-        binding.textQuantityTitle.setBackgroundColor(Color.TRANSPARENT)
-        binding.textTotalValueTitle.setBackgroundColor(Color.TRANSPARENT)
+        // Reset all column title to normal
+        binding.textTickerTitle.setTypeface(null, Typeface.NORMAL)
+        binding.textValueTitle.setTypeface(null, Typeface.NORMAL)
+        binding.textQuantityTitle.setTypeface(null, Typeface.NORMAL)
+        binding.textTotalValueTitle.setTypeface(null, Typeface.NORMAL)
 
-        // Set the background color of the clicked title to yellow
-        val backgroundColor = if (portfolioAdapter.getSortColumn() == column) {
-            if (portfolioAdapter.isAscending()) Color.YELLOW else Color.RED
+        if (column == SortColumn.NAME) {
+            if (portfolioAdapter.isAscending()) {
+                binding.textTickerTitle.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_arrow_up, 0)
+            } else {
+                binding.textTickerTitle.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_arrow_down, 0)
+            }
+            binding.textTickerTitle.setTypeface(binding.textTickerTitle.typeface, Typeface.BOLD)
+        } else if (column == SortColumn.PRICE) {
+            if (portfolioAdapter.isAscending()) {
+                binding.textValueTitle.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_arrow_up, 0)
+            } else {
+                binding.textValueTitle.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_arrow_down, 0)
+            }
+            binding.textValueTitle.setTypeface(binding.textValueTitle.typeface, Typeface.BOLD)
+        } else if (column == SortColumn.QUANTITY) {
+            if (portfolioAdapter.isAscending()) {
+                binding.textQuantityTitle.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_arrow_up, 0)
+            } else {
+                binding.textQuantityTitle.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_arrow_down, 0)
+            }
+            binding.textQuantityTitle.setTypeface(binding.textQuantityTitle.typeface, Typeface.BOLD)
         } else {
-            Color.TRANSPARENT
+            if (portfolioAdapter.isAscending()) {
+                binding.textTotalValueTitle.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_arrow_up, 0)
+            } else {
+                binding.textTotalValueTitle.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_arrow_down, 0)
+            }
+            binding.textTotalValueTitle.setTypeface(binding.textTotalValueTitle.typeface, Typeface.BOLD)
         }
-        view.setBackgroundColor(backgroundColor)
     }
 
     override fun onDestroyView() {
