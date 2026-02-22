@@ -11,7 +11,7 @@ A competitive **stock market simulation** Android app built in **Kotlin**.
 
 StockMarketShowdown is a game-like stock market simulator where users can sign in, view companies, and participate in a competitive “showdown” experience.
 
-The app ships with a bundled company dataset (`companyData.json`) and uses Firebase services for user/auth + data storage. :contentReference[oaicite:1]{index=1}
+The app ships with a bundled company dataset (`companyData.json`) and uses Firebase services for user/auth + data storage.
 
 ---
 
